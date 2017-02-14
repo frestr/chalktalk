@@ -1,12 +1,58 @@
-<!DOCTYPE html>
+
 {% extends "master.html" %}
 
 {% block title %}Home{% endblock %}
 
 {% block body %}
 
-<H1> Home </H1>
+<style>
 
-<p> Hei hopp </p>
+h1, h3{
+    color: white;
+}
+
+
+.login {
+    width: 300px;
+    text-align: center;
+}
+
+.sign-in-btn {
+    margin-top: 50px;
+}
+
+body{
+   background-color: #0c5b16
+}
+
+</style>
+
+<div class="container text-center title-box">
+    <H1> Chalk Talk </H1>
+</div>
+
+
+
+
+<div class="container login">
+    <form class="form-signin">
+
+        <h3 class="form-signin-heading"> Please sign in using FEIDE</h3>
+
+        <label for="username" class="sr-only"> Username </label>
+        <input type="username" name="inputUsername" class="form-control" placeholder="Username" required>
+
+        <label for="password" class="sr-only"> Password </label>
+        <input type="password" name="inputPassword" class="form-control" placeholder="Password" requiredu>
+
+        <a href="#" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit" > Login </a>
+
+
+    </form>
+</div>
+
+
 
 {% endblock %}
+
+
