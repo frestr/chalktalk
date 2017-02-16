@@ -2,20 +2,20 @@
 
 {% block body %}
     <h2>Feedback for {{ lecture }}</h2>
+    <form action="{{ url_for('feedbackform') }}" method=post>
+    {{ form.hidden_tag() }}
     <table class="table">
         <thead>
             <tr>
-                <th></th>
-                <th>Forståelse</th>
-                <th>Kommentar</th>
+                <th>Tema</th>
+                <th>{{ form.rating.label }}</th>
+                <th>{{ form.comment.label }}</th>
             </tr>
         </thead>
     {% for subject in subjects %}
-        <form action="{{ url_for('feedbackform') }}" method=post>
-                {{ form.hidden_tag() }}
 
                 <tbody>
-                    <td>Tema: {{ subject }}</td>
+                    <td>{{ subject }}</td>
                     <td>
                         {% for rating in form.rating %}
                             {{ rating.label }}
@@ -25,10 +25,10 @@
                     <td>{{ form.comment }}</td>
                 </tbody>
 
-        </form>
     {% endfor %}
     </table>
     {{ form.submit }}
+    </form>
 
 {% endblock %}
 
