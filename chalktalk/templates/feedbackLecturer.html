@@ -10,18 +10,14 @@
         </div>
 
         {% block feedbackBoxes %}
-        <ul>
+        <table border="1">
         {% for n in range(10) %} <!-- erstatt dette med for message in messages for eksempel !-->
-            <li>
-                <table>
-                    <tr>
-                        <td>message.userID</td>
-                        <td>message.content</td>
-                    </tr>
-                </table>
-            </li>
+            <tr>
+                <td>message.userID</td>
+                <td>message.content</td>
+            </tr>
         {% endfor %}
-        </ul>
+        </table>
         {% endblock %}
     </body>
 
