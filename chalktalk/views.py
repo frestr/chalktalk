@@ -15,11 +15,14 @@ def index():
 def lecturer():
     return render_template('lecturer.html')
 
+
 @app.route('/feedback/', methods=['post', 'get'])
 def feedbackform():
+    lecture = "TDT4100"
+    subjects = ['Pastasaus', 'Pizzabunn', 'Algoritmer']
     form = Feedbackform()
 
     if request.method == 'POST':
         return 'Form posted.'
     elif request.method == 'GET':
-        return render_template('feedbackform.html', form=form)
+        return render_template('feedbackform.html', form=form, lecture=lecture, subjects=subjects)

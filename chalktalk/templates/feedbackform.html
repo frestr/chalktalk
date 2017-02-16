@@ -1,18 +1,35 @@
 {% extends 'master.html' %}
 
 {% block body %}
-    <h2>Feedback</h2>
-    <form action="{{ url_for('feedbackform') }}" method=post>
-    {{ form.hidden_tag() }}
+    <h2>Feedback for {{ lecture }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Forståelse</th>
+                <th>Kommentar</th>
+            </tr>
+        </thead>
+    {% for subject in subjects %}
+        <form action="{{ url_for('feedbackform') }}" method=post>
+                {{ form.hidden_tag() }}
 
-    {{ form.rating.label }}
-    {{ form.rating }}
+                <tbody>
+                    <td>Tema: {{ subject }}</td>
+                    <td>
+                        {% for rating in form.rating %}
+                            {{ rating.label }}
+                            {{ rating }}
+                        {% endfor %}
+                    </td>
+                    <td>{{ form.comment }}</td>
+                </tbody>
 
-    {{ form.comment.label }}
-    {{ form.comment }}
-
+        </form>
+    {% endfor %}
+    </table>
     {{ form.submit }}
-  </form>
+
 {% endblock %}
 
 
