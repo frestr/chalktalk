@@ -1,9 +1,18 @@
 {% extends 'master.html' %}
 
 {% block body %}
-<form>
-<p>Fag: TDT4100</p>
-<input type="text">
-<input type="radio" >
-</form>
+    <h2>Feedback</h2>
+    <form action="{{ url_for('feedbackform') }}" method=post>
+    {{ form.hidden_tag() }}
+
+    {{ form.rating.label }}
+    {{ form.rating }}
+
+    {{ form.comment.label }}
+    {{ form.comment }}
+
+    {{ form.submit }}
+  </form>
 {% endblock %}
+
+
