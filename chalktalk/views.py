@@ -15,6 +15,9 @@ def index():
 def lecturer():
     return render_template('lecturer.html')
 
+@app.route('/createlecturelist')
+def createlecturelist():
+    return render_template('createlecturelist.html')
 
 @app.route('/feedback/', methods=['post', 'get'])
 def feedbackform():

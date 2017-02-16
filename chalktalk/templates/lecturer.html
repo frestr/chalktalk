@@ -4,67 +4,62 @@
 
 {% block body %}
 
- <link href="{{ url_for('static', filename='css/calendar.css') }}" rel="stylesheet">
+   <link href="{{ url_for('static', filename='css/calendar.css') }}" rel="stylesheet">
 
 <div class="container text-center title-box">
     <H1> Welcome Lecturer  </H1>
 </div>
 
+<div class="table-responsive-vertical shadow-z-1">
+  <!-- Table starts here -->
+  <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-title="Day">Monday</td>
+          <td data-title="Name">Material Design Color Palette</td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+        <tr>
+          <td data-title="ID">Tuesday</td>
+          <td data-title="Name"></td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+        <tr>
+          <td data-title="ID">Wednesday</td>
+          <td data-title="Name">Material Design Hierarchical Display</td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+        <tr>
+          <td data-title="ID">Thursday</td>
+          <td data-title="Name">Material Design Sidebar</td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+        <tr>
+          <td data-title="ID">Friday</td>
+          <td data-title="Name">Material Design Tiles</td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+        <tr>
+          <td data-title="ID">Saturday</td>
+          <td data-title="Name">Material Design Typography</td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+        <tr>
+          <td data-title="ID">Sunday</td>
+          <td data-title="Name">Material Design Buttons</td>
+          <td data-title="Status">Fill in</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div class="month">
-    <ul>
-        <li class="prev"> &#10094; </li>
-        <li class="next"> &#10095; </li>
-        <li>
-        August<br>
-            <span style="font-size:18px"> 2016 </span>
-        </li>
-    </ul>
-</div>
 
-<ul class="weekdays">
-    <li> Monday </li>
-    <li> Tuesday </li>
-    <li> Wednesday </li>
-    <li> Thursday </li>
-    <li> Friday </li>
-    <li> Saturday </li>
-    <li> Sunday </li>
-</ul>
-
-<ul class="days">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-    <li>6</li>
-    <li>7</li>
-    <li>8</li>
-    <li>9</li>
-    <li><span class="active">10</span></li>
-    <li>11</li>
-    <li>12</li>
-    <li>13</li>
-    <li>14</li>
-    <li>15</li>
-    <li>16</li>
-    <li>17</li>
-    <li>18</li>
-    <li>19</li>
-  <!--  <li><span class="active">20</span></li> -->
-    <li>20</li>
-    <li>21</li>
-    <li>22</li>
-    <li>23</li>
-    <li>24</li>
-    <li>25</li>
-    <li>26</li>
-    <li>27</li>
-    <li>28</li>
-    <li>29</li>
-    <li>30</li>
-    <li>31</li>
-</ul>
 
 {% endblock %}
