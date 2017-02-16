@@ -1,0 +1,28 @@
+{% extends "master.html" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+    <body>
+        <div id="FeedbackGraph">
+            <p>Graphs haha WOW</p>
+        </div>
+
+        {% block feedbackBoxes %}
+            <ul>
+            {% for message in messages %}
+                <li>
+                    <table>
+                        <tr>
+                            <td>message.userID</td>
+                            <td>message.content</td>
+                        </tr>
+                    </table>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endblock %}
+    </body>
+
+{% endblock %}
