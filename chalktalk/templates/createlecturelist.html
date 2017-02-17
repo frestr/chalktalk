@@ -4,24 +4,142 @@
 
 {% block body %}
 
-    <link href="{{ url_for('static', filename='css/createlecturelist.css') }}" rel="stylesheet">
+    <!--<link href="{{ url_for('static', filename='css/createlecturelist.css') }}" rel="stylesheet">
+    -->
+    <style>
 
 
-    <div class="container" style="background-color: black">
+        h3{
+            color: white;
+        }
+        th{
+            color: white;
+        }
+
+        td{
+
+            color: white;
+        ]
+
+        #courseField{
+
+            margin-top: 200 px;
+
+        }
+
+        #containerLeft{
+
+            width: 600px;
+
+
+        }
+
+        #containerRight{
+
+            width: 300px;
+            float: right;
+
+        }
+
+        #generateListBtn{
+
+            width: 50px;
+
+        }
+
+
+
+
+    </style>
+
+<!-- background-color: green; background: rgba(0, 75, 0, 0.3); -->
+
+    <div id="courseField" class="container">
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
+            <label for="inputCourse"><h3>Course</h3></label>
+            <input type="course" class="form-control" id="inputCourse" aria-describedby="courseHelp" placeholder="Enter course">
+        </div>
+    </div>
 
+    <div id="containerLeft" class="container">
+       <table id="tableLft" class="table table-hover table-mc-light-blue">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+            <tbody>
+                <tr>
+                  <td data-title="Day">Monday</td>
+                  <td data-title="Name">
+                      <label for="username" class="sr-only"> Time </label>
+                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
+                  </td>
+                    <td data-title="Status">
+                        <form action="">
+                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                  <td data-title="Day">Tuesday</td>
+                  <td data-title="Name">
+                      <label for="username" class="sr-only"> Time </label>
+                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
+                  </td>
+                    <td data-title="Status">
+                        <form action="">
+                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                  <td data-title="Day">Wednesday</td>
+                  <td data-title="Name">
+                      <label for="username" class="sr-only"> Time </label>
+                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
+                  </td>
+                    <td data-title="Status">
+                        <form action="">
+                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                  <td data-title="Day">Thursday</td>
+                  <td data-title="Name">
+                      <label for="username" class="sr-only"> Time </label>
+                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
+                  </td>
+                    <td data-title="Status">
+                        <form action="">
+                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                  <td data-title="Day">Friday</td>
+                  <td data-title="Name">
+                      <label for="username" class="sr-only"> Time </label>
+                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
+                  </td>
+                    <td data-title="Status">
+                        <form action="">
+                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+       </table>
     </div>
 
 
-    <div class="jumbotron test" >
-
-
-
-
+    <div id="generateListBtn" class="container">
+        <a href="#" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit"> Generate lecture list </a>
     </div>
+
+
 
 {% endblock %}
