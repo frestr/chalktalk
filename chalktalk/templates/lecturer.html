@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends "master.html" %}
 
 {% block title %}Home{% endblock %}
@@ -10,44 +11,46 @@
           color: white;
         }
 
+        h2{
+
+            color: white;
+
+        }
+
         h3{
             color: white;
         }
+
         th{
             color: white;
         }
-
         td{
-
             color: white;
-        ]
+        }
 
-        #courseField{
+        .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+          background-color: #550055;
+        }
+
+        #courseList{
 
             margin-top: 200 px;
 
         }
 
-        #containerLeft{
+        .container{
 
-            width: 600px;
-
-
-        }
-
-        #containerRight{
-
-            width: 300px;
-            float: right;
+            width: 800px;
 
         }
-
-        #generateListBtn{
-
-            width: 50px;
-
+        td a{
+            color: white;
+            display: block;
         }
-
+        td a:hover{
+            color: white;
+            text-decoration: none;
+        }
 
 
 
@@ -56,62 +59,197 @@
 
 
 
-   <link href="{{ url_for('static', filename='css/calendar.css') }}" rel="stylesheet">
+
 
 <div class="container text-center title-box">
     <H1> Welcome Lecturer  </H1>
 </div>
 
-<div class="table-responsive-vertical shadow-z-1">
-  <!-- Table starts here -->
-  <table id="table" class="table table-hover table-mc-light-blue">
+<div class="container text-center">
+    <h2> Course XXXX </h2>
+</div>
+
+
+
+<div id="courseList" class="table-responsive container">
+
+  <table id="table" class="table table striped table-hover">
       <thead>
         <tr>
           <th>Day</th>
           <th>Name</th>
-          <th>Status</th>
+          <th>Keywords</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td data-title="Day">Monday</td>
-          <td data-title="Name">Material Design Color Palette</td>
-          <td data-title="Status">Fill in</td>
+          <td data-title="Day">
+              <a href="#">Monday</a>
+          </td>
+          <td data-title="Date">
+              <a href="#">01.01 - Intro</a>
+          </td>
+          <td data-title="Keywords">
+              <a href="#">Course layout, exercise plan</a>
+          </td>
         </tr>
         <tr>
-          <td data-title="ID">Tuesday</td>
-          <td data-title="Name"></td>
-          <td data-title="Status">Fill in</td>
+          <td data-title="Day">
+              <a href="#">Wednesday</a>
+          </td>
+          <td data-title="Date">
+              <a href="#">03.01 - Intro lab</a>
+          </td>
+          <td data-title="Keywords">
+              <a href="#">Lab plan</a>
+          </td>
         </tr>
         <tr>
-          <td data-title="ID">Wednesday</td>
-          <td data-title="Name">Material Design Hierarchical Display</td>
-          <td data-title="Status">Fill in</td>
-        </tr>
-        <tr>
-          <td data-title="ID">Thursday</td>
-          <td data-title="Name">Material Design Sidebar</td>
-          <td data-title="Status">Fill in</td>
-        </tr>
-        <tr>
-          <td data-title="ID">Friday</td>
-          <td data-title="Name">Material Design Tiles</td>
-          <td data-title="Status">Fill in</td>
-        </tr>
-        <tr>
-          <td data-title="ID">Saturday</td>
-          <td data-title="Name">Material Design Typography</td>
-          <td data-title="Status">Fill in</td>
-        </tr>
-        <tr>
-          <td data-title="ID">Sunday</td>
-          <td data-title="Name">Material Design Buttons</td>
-          <td data-title="Status">Fill in</td>
+          <td data-title="Day">
+              <a href="#">Friday</a>
+          </td>
+          <td data-title="Date">
+              <a href="#">05.01 - Intro to functions</a>
+          </td>
+          <td data-title="Keywords">
+              <a href="#">Function calls, return types, arguments, parameters</a>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
+
+
+<!--
+<div class="container">
+  <div class="row">
+
+      	<div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+             <tr>
+              <td>8</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+-->
+
+<!--
+
+<div class="container">
+    <div class="tab">
+        <table class="table table-hover ">
+            <thead>
+                <tr>
+                    <td><b>All Users1</b></td>
+                    <td><b>All Users2</b></td>
+                    <td><b>All Users3</b></td>
+                </tr>
+                 <tr>
+                    <td><b>All Users4</b></td>
+                     <td><b>All Users5</b></td>
+                     <td><b>All Users6</b></td>
+                </tr>
+                 <tr>
+                    <td><b>All Users7</b></td>
+                     <td><b>All Users8</b></td>
+                     <td><b>All Users9</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                something..
+            </tbody>
+        </table>
+    </div>
+</div>
+
+-->
 
 
 {% endblock %}

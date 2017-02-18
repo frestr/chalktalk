@@ -29,3 +29,7 @@ def feedbackform():
         return 'Form posted.'
     elif request.method == 'GET':
         return render_template('feedbackform.html', form=form, lecture=lecture, subjects=subjects)
+
+@app.route('/lecturertest')
+def lecturertest():
+    return render_template('lecturertest.html')

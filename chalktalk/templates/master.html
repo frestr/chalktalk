@@ -11,10 +11,11 @@
 
     <title>{% block title %}{% endblock %} - ChalkTalk</title>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet">
 
-  <style>
+
+    <style>
         body{
            background-image: url("/static/images/blackboard.png");
         }
@@ -26,7 +27,6 @@
 
 
     <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.2.4.min.js') }}"></script> -->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
   </head>
 
   <body>
@@ -37,7 +37,7 @@
           {% if messages %}
             <br>
             {% for category, message in messages %}
-            <p {% if category == 'error' %}style="color:red;"{% endif %}>{{ message|safe }}</p>
+            <p {% if category == 'error' %}style="color:red;">{% endif %}{{ message|safe }}</p>
             {% endfor %}
           {% endif %}
         {% endwith %}
