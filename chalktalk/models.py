@@ -106,7 +106,7 @@ class Lecture(Base):
             secondary=relation_tables['lecturer_lecture'],
             back_populates='lectures')
 
-    lecture_subjects = relationship('Lecture_subject', back_populates='lecture')
+    subjects = relationship('Lecture_subject', back_populates='lecture')
 
 
 class Lecture_subject(Base):
@@ -115,7 +115,7 @@ class Lecture_subject(Base):
     keyword = Column(String(128))
 
     lecture_id = Column(Integer, ForeignKey('lecture.id'))
-    lecture = relationship('Lecture', back_populates='lecture_subjects')
+    lecture = relationship('Lecture', back_populates='subjects')
 
     subject_understandings = relationship('Subject_understanding', back_populates='lecture_subject')
 

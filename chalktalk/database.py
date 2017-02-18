@@ -56,22 +56,28 @@ class DatabaseManager():
         '''Add a new lecturer to the database'''
         return self._add_user(oauth_id, name, 'lecturer')
 
-    def add_course(self, code_name, full_name, semester):
+    def add_course(self, code_name, full_name, semester, lecturers=[]):
         if self.session.query(Course).filter_by(code_name=code_name, semester=semester).count() != 0:
             return False
 
-        course = Course(code_name=code_name, full_name=full_name, semester=semester)
+        course = Course(code_name=code_name, full_name=full_name, semester=semester, lecturers=lecturers)
         self.session.add(course)
         self.save_changes()
+
+        return True
 
     def add_student_to_course(self, student, course):
         pass
 
     def add_lecture(self, course, date, parallel, lecturers):
-        pass
+        lecture = Lecture(course=course, date=date, parallel=parallel, lecturers=lecturers)
+        self.session.add(lecture)
+        self.save_changes()
 
     def add_lecture_subject(self, lecture, subject_keyword):
-        pass
+        subject = Lecture_subject(lecture=lecture, keyword=subject_keyword)
+        self.session.add(subject)
+        self.save_changes()
 
     def add_feedback(self, student, overall_comment):
         pass
