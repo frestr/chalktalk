@@ -14,3 +14,10 @@ flask run
 ```
 
 For virtualenv on windows, see here: https://virtualenv.pypa.io/en/stable/userguide/#usage
+
+To run the tests, do:
+```
+python -m unittest discover
+```
+
+in the project root directory
