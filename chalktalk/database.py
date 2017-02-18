@@ -6,15 +6,17 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 # This must be imported AFTER Base has been instantiated!
-from probe_website.models import *
+from chalktalk.models import User, Student, Lecturer, \
+                             Course, Lecture, Lecture_subject, \
+                             Lecture_feedback, Subject_understanding
 
 
 class DatabaseManager():
     def __init__(self, database_url):
-        """Set up SQL Alchemy with the database at 'database_path'
+        '''Set up SQL Alchemy with the database at 'database_path'
 
         database_url can be e.g. 'sqlite:////home/bob/database.db'
-        """
+        '''
         self.engine = create_engine(database_url, convert_unicode=True)
         self.session = scoped_session(sessionmaker(autocommit=False,
                                                    autoflush=False,
@@ -23,22 +25,44 @@ class DatabaseManager():
         global Base
         Base.query = self.session.query_property()
 
-        self.setup_relationships()
-
         Base.metadata.create_all(self.engine)
 
     def shutdown_session(self):
-        """Close the database"""
+        '''Close the database'''
         self.session.remove()
 
-    def add_student(self, oauth_id):
-        pass
+    def _add_user(self, oauth_id, name, role):
+        '''Internal method for generically adding users'''
+        if self.session.query(User).filter_by(oauth_id=oauth_id).count() != 0:
+            return False
 
-    def add_lecturer(self, oauth_id):
-        pass
+        if role == 'student':
+            user = Student(oauth_id=oauth_id, name=name)
+        elif role == 'lecturer':
+            user = Lecturer(oauth_id=oauth_id, name=name)
+        else:
+            return False
 
-    def add_course(self, codename, full_name, semester, lecturers):
-        pass
+        self.session.add(user)
+        self.save_changes()
+
+        return True
+
+    def add_student(self, oauth_id, name):
+        '''Add a new student to the database'''
+        return self._add_user(oauth_id, name, 'student')
+
+    def add_lecturer(self, oauth_id, name):
+        '''Add a new lecturer to the database'''
+        return self._add_user(oauth_id, name, 'lecturer')
+
+    def add_course(self, code_name, full_name, semester):
+        if self.session.query(Course).filter_by(code_name=code_name, semester=semester).count() != 0:
+            return False
+
+        course = Course(code_name=code_name, full_name=full_name, semester=semester)
+        self.session.add(course)
+        self.save_changes()
 
     def add_student_to_course(self, student, course):
         pass
@@ -54,3 +78,7 @@ class DatabaseManager():
 
     def add_subject_understanding(self, lecture_feedback, lecture_subject, comprehension_rating, comment):
         pass
+
+    def save_changes(self):
+        '''Save database changes persistently to SQL database'''
+        self.session.commit()

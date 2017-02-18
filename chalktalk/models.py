@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from chalktalk.database import Base
 
 
+# This is used for many-to-many relations
 relation_tables = {
         'student_course':
             Table('student_course_relation', Base.metadata,
@@ -34,10 +35,6 @@ class User(Base):
         'polymorphic_identity': 'user',
         'polymorphic_on': type
     }
-
-    def __init__(self, oauth_id, name):
-        self.oauth_id = oauth_id
-        self.name = name
 
 
 class Student(User):
@@ -73,10 +70,6 @@ class Lecturer(User):
     __mapper_args__ = {
         'polymorphic_identity': 'lecturer'
     }
-
-    def __init__(self, oauth_id, name
-
-    def __init__(self, oauth_id, name
 
 
 class Course(Base):
@@ -124,7 +117,7 @@ class Lecture_subject(Base):
     lecture_id = Column(Integer, ForeignKey('lecture.id'))
     lecture = relationship('Lecture', back_populates='lecture_subjects')
 
-    subject_understandings = relationship('Subject_understanding', back_populates='lecture_feedback')
+    subject_understandings = relationship('Subject_understanding', back_populates='lecture_subject')
 
 
 class Lecture_feedback(Base):
