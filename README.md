@@ -1,21 +1,23 @@
 # chalktalk
 Project for the course "Software Development"
 
-To run the debug server, do:
+To set up project:
 
 ```
+pip install virtualenv
+git clone https://github.com/frestr/chalktalk.git
+virtualenv chalktalk
+source chalktalk/bin/activate
 cd chalktalk
 export FLASK_APP=runserver.py
 flask run
 ```
 
-Set up virtualenv:
+For virtualenv on windows, see here: https://virtualenv.pypa.io/en/stable/userguide/#usage
 
-
-On outermost directory:
+To run the tests, do:
 ```
-virtualenv chalktalk
-source chalktalk/bin/activate
+python -m unittest discover
 ```
 
-For windows, see here: https://virtualenv.pypa.io/en/stable/userguide/#usage
+in the project root directory
