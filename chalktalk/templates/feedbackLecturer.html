@@ -4,13 +4,12 @@
 
 {% block body %}
 
-    <body>
-        <div id="FeedbackGraph">
+        <div id="FeedbackGraph" class="center-block">
             <p>Graphs haha WOW</p>
         </div>
 
         {% block feedbackBoxes %}
-        <table border="1">
+        <table border="1" class="center-block">
         {% for n in range(10) %} <!-- erstatt dette med for message in messages for eksempel !-->
             <tr>
                 <td>message.userID</td>
@@ -19,6 +18,5 @@
         {% endfor %}
         </table>
         {% endblock %}
-    </body>
 
 {% endblock %}
