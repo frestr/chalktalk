@@ -30,6 +30,10 @@ def feedbackform():
     elif request.method == 'GET':
         return render_template('feedbackform.html', form=form, lecture=lecture, subjects=subjects)
 
+@app.route('/feedbacklecturer')
+def feedbackLecturer():
+    return render_template('feedbackLecturer.html')
+
 @app.route('/lecturertest')
 def lecturertest():
     return render_template('lecturertest.html')
