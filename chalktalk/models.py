@@ -106,18 +106,20 @@ class Lecture(Base):
             secondary=relation_tables['lecturer_lecture'],
             back_populates='lectures')
 
-    subjects = relationship('Lecture_subject', back_populates='lecture')
+    feedbacks = relationship('Lecture_feedback', back_populates='lecture')
+
+    subjects = relationship('Subject', back_populates='lecture')
 
 
-class Lecture_subject(Base):
-    __tablename__ = 'lecture_subject'
+class Subject(Base):
+    __tablename__ = 'subject'
     id = Column(Integer, primary_key=True)
     keyword = Column(String(128))
 
     lecture_id = Column(Integer, ForeignKey('lecture.id'))
     lecture = relationship('Lecture', back_populates='subjects')
 
-    subject_understandings = relationship('Subject_understanding', back_populates='lecture_subject')
+    feedbacks = relationship('Subject_feedback', back_populates='subject')
 
 
 class Lecture_feedback(Base):
@@ -128,17 +130,20 @@ class Lecture_feedback(Base):
     student_id = Column(Integer, ForeignKey('student.id'))
     student = relationship('Student', back_populates='lecture_feedbacks')
 
-    subject_understandings = relationship('Subject_understanding', back_populates='lecture_feedback')
+    lecture_id = Column(Integer, ForeignKey('lecture.id'))
+    lecture = relationship('Lecture', back_populates='feedbacks')
+
+    subject_feedbacks = relationship('Subject_feedback', back_populates='lecture_feedback')
 
 
-class Subject_understanding(Base):
-    __tablename__ = 'subject_understanding'
+class Subject_feedback(Base):
+    __tablename__ = 'subject_feedback'
     id = Column(Integer, primary_key=True)
     comprehension_rating = Column(Integer)
     comment = Column(String(512))
 
     lecture_feedback_id = Column(Integer, ForeignKey('lecture_feedback.id'))
-    lecture_feedback = relationship('Lecture_feedback', back_populates='subject_understandings')
+    lecture_feedback = relationship('Lecture_feedback', back_populates='subject_feedbacks')
 
-    lecture_subject_id = Column(Integer, ForeignKey('lecture_subject.id'))
-    lecture_subject = relationship('Lecture_subject', back_populates='subject_understandings')
+    subject_id = Column(Integer, ForeignKey('subject.id'))
+    subject = relationship('Subject', back_populates='feedbacks')
