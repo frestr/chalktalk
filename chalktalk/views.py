@@ -37,3 +37,8 @@ def feedbackLecturer():
 @app.route('/lecturertest')
 def lecturertest():
     return render_template('lecturertest.html')
+
+@app.route('/statisticsview')
+def statisticsview():
+    return render_template('statisticsview.html')
+
