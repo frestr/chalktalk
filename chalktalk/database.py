@@ -169,3 +169,16 @@ class DatabaseManager():
     def save_changes(self):
         '''Save database changes persistently to SQL database'''
         self.session.commit()
+
+    def get_subject_values(self, lecture):
+        data = []
+        for subject in lecture.subjects:
+            name = subject.keyword
+            ratings = [feedback.comprehension_rating for feedback in subject.feedbacks]
+            rating_counts = [ratings.count(i) for i in range(1, 6)]
+            comments = [(feedback.comprehension_rating, feedback.comment)
+                            for feedback in subject.feedbacks]
+            data.append({'name': name,
+                         'ratings': rating_counts,
+                         'comments': comments})
+        return data

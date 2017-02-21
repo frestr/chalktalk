@@ -1,8 +1,10 @@
-from pip._vendor.requests.packages.urllib3 import request
-
 from chalktalk import app
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request, url_for, redirect, abort
 from .feedbackforms import Feedbackform
+import chalktalk.database
+
+database_url = 'sqlite:///dummy.db'
+db = chalktalk.database.DatabaseManager(database_url)
 
 app.secret_key = 'development key'
 
@@ -11,9 +13,14 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/lecturer')
-def lecturer():
-    return render_template('lecturer.html')
+@app.route('/lecturelist/<lecture_id>')
+def lecturer(lecture_id):
+    lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
+    if lecture is None:
+        abort(404)
+    subjects = db.get_subject_values(lecture)
+    print(subjects)
+    return render_template('lecturer.html', subjects=subjects)
 
 @app.route('/createlecturelist')
 def createlecturelist():

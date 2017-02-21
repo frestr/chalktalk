@@ -1,8 +1,8 @@
-from chalktalk import database,models
+from chalktalk import database
 from datetime import datetime
 
 # Instantiate database
-db = database.DatabaseManager('sqlite:///:memory:')
+db = database.DatabaseManager('sqlite:///dummy.db')
 
 # Add a course, lecturer and student
 course   = db.add_course('TDT4140', 'Programvareutvikling', 'V2017')
@@ -22,3 +22,7 @@ subject2 = db.add_subject(lecture, 'Utvikling')
 feedback = db.add_lecture_feedback(student, lecture, 'BAD!')
 db.add_subject_feedback(feedback, subject1, 5, 'Easy')
 db.add_subject_feedback(feedback, subject2, 2, 'Hard')
+db.add_subject_feedback(feedback, subject1, 1, 'Easy')
+db.add_subject_feedback(feedback, subject1, 1, 'Easy')
+db.add_subject_feedback(feedback, subject2, 2, 'Hard')
+db.add_subject_feedback(feedback, subject2, 4, 'Hard')
