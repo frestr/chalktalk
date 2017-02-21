@@ -13,13 +13,13 @@
 
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: ['01.01', '03.01', '05.01'],
                 datasets: [{
                     label: 'Understood',
                     data: [12, 19, 3, 17, 6, 3, 7],
-                    backgroundColor: "rgba(2,201,45,0.4)"
+                    backgroundColor: "rgba(255,255,255,0.4)"
                 }, {
                 label: 'Did not understand',
                 data: [2, 29, 5, 5, 2, 3, 10],
@@ -28,7 +28,16 @@
             }
         });
 
+
+
     </script>
 
+<!--
+
+subject['name']['ratings'] = [3, 5, 9, 2, 3]
+subject['name']['comments'] = [(1, 'bad'), (5, 'easy')]
+
+data: [{{ subject['name']['ratings'][0] }}
+-->
 
 {% endblock %}
