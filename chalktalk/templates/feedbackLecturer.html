@@ -4,42 +4,54 @@
 
 {% block body %}
 
-        <ul class="center-block nav nav-tabs">
+        <ul id="tabs" class="center-block nav nav-tabs" data-tabs="tabs">
             {% for subject in subjects %}
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ subject['name'] }}
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Messages</a></li>
-                        <li><a href="#">Graphs</a></li>
+                        <li><a href="#messages_{{ subject['name']|lower }}">Messages</a></li>
+                        <li><a href="#graphs_{{ subject['name']|lower }}">Graphs</a></li>
                     </ul>
                 </li>
             {% endfor %}
         </ul>
 
-        <div id="FeedbackGraph" class="center-block">
-            <p>Insert graphs here</p>
+        <div id="tab_content" class="tab-content">
+            <div id="graphs_utvikling" class="tab-pane">
+                <p>hello</p>
+            </div>
+
+            <!--{% for subject in subjects %}
+                <div id="graphs_{{ subject['name']|lower }}" class="tab-pane">
+                    <p>Graphs</p>
+                </div>
+
+                <div id="messages_{{ subject['name']|lower }}" class="tab-pane">
+                    <p>Messages</p>
+                    <table>
+                        {% for comment in subject['comments'] %}
+                            <tr>
+                                <td>
+                                    <p>Username</p>
+                                </td>
+                                <td>
+                                    <p>Subject: {{ subject['name'] }}</p>
+                                </td>
+                                <td>
+                                    <p>Rating: {{ comment[0] }}</p>
+                                </td>
+                                <td>
+                                    <p>Comment: {{ comment[1] }}</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endfor %}
+            !-->
         </div>
 
-            <table>
-                {% for subject in subjects %}
-                    {% for comment in subjects['comments'] %}
-                        <tr>
-                            <td>
-                                <p>Username</p>
-                            </td>
-                            <td>
-                                <p>Subject: {{ subject['name'] }}</p>
-                            </td>
-                            <td>
-                                <p>Rating: {{ comment[0] }}</p>
-                            </td>
-                            <td>
-                                <p>Comment: {{ comment[1] }}</p>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
-            </table>
+
 
 {% endblock %}
