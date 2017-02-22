@@ -4,42 +4,74 @@
 
 {% block body %}
 
-        <ul class="center-block nav nav-tabs">
-            {% for subject in subjects %}
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ subject['name'] }}
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Messages</a></li>
-                        <li><a href="#">Graphs</a></li>
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
+    <style>
 
-        <div id="FeedbackGraph" class="center-block">
-            <p>Insert graphs here</p>
-        </div>
+        #myChart{
+            background-color: white;
+        }
 
-            <table>
-                {% for subject in subjects %}
-                    {% for comment in subjects['comments'] %}
-                        <tr>
-                            <td>
-                                <p>Username</p>
-                            </td>
-                            <td>
-                                <p>Subject: {{ subject['name'] }}</p>
-                            </td>
-                            <td>
-                                <p>Rating: {{ comment[0] }}</p>
-                            </td>
-                            <td>
-                                <p>Comment: {{ comment[1] }}</p>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
-            </table>
+        .tabContent{
+
+            display:none;
+
+        }
+
+    </style>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+    <script>
+
+         var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['01.01', '03.01', '05.01'],
+                datasets: [{
+                    label: 'Understood',
+                    data: [12, 19, 3, 17, 6, 3, 7],
+                    backgroundColor: "rgba(255,255,255,0.4)"
+                }, {
+                label: 'Did not understand',
+                data: [2, 29, 5, 5, 2, 3, 10],
+                backgroundColor: "rgba(175,22,2,0.4)"
+                }]
+            }
+        });
+
+    </script>
+
+
+    <ul class="center-block nav nav-tabs">
+        {% for subject in subjects %}
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ subject['name'] }}
+                <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="callCanvas">Messages</a></li>
+                <li><a href="#">Graphs</a></li>
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {% endblock %}
