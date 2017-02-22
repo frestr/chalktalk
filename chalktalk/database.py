@@ -44,7 +44,6 @@ class DatabaseManager():
             return None
 
         self.session.add(user)
-        self.save_changes()
 
         return user
 
@@ -82,7 +81,6 @@ class DatabaseManager():
                         semester=semester,
                         lecturers=lecturers)
         self.session.add(course)
-        self.save_changes()
 
         return course
 
@@ -93,7 +91,6 @@ class DatabaseManager():
         courtse : Course object
         '''
         course.students.append(student)
-        self.save_changes()
 
     def add_lecturer_to_course(self, lecturer, course):
         '''Add a lecturer to a course's lecturer list
@@ -102,7 +99,6 @@ class DatabaseManager():
         course   : Course object
         '''
         course.lecturers.append(lecturer)
-        self.save_changes()
 
     def add_lecture(self, course, date, parallel, lecturers):
         '''Add a lecture
@@ -117,7 +113,6 @@ class DatabaseManager():
                           parallel=parallel,
                           lecturers=lecturers)
         self.session.add(lecture)
-        self.save_changes()
 
         return lecture
 
@@ -129,7 +124,6 @@ class DatabaseManager():
         '''
         subject = Subject(lecture=lecture, keyword=subject_keyword)
         self.session.add(subject)
-        self.save_changes()
 
         return subject
 
@@ -145,7 +139,6 @@ class DatabaseManager():
                                     lecture=lecture,
                                     overall_comment=overall_comment)
         self.session.add(feedback)
-        self.save_changes()
 
         return feedback
 
@@ -162,7 +155,6 @@ class DatabaseManager():
                                     comprehension_rating=comprehension_rating,
                                     comment=comment)
         self.session.add(feedback)
-        self.save_changes()
 
         return feedback
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from chalktalk import database
 from datetime import datetime
 
@@ -26,3 +27,5 @@ db.add_subject_feedback(feedback, subject1, 1, 'Easy')
 db.add_subject_feedback(feedback, subject1, 1, 'Easy')
 db.add_subject_feedback(feedback, subject2, 2, 'Hard')
 db.add_subject_feedback(feedback, subject2, 4, 'Hard')
+
+db.save_changes()

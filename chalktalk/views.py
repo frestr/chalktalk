@@ -26,11 +26,19 @@ def createlecturelist():
 @app.route('/feedback/<lecture_id>', methods=['POST', 'GET'])
 def feedbackform(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
+
+    ##### NB : This should be the student giving the feedback, not just a 
+    ##### random student like now (just for testing)
+    student = db.session.query(chalktalk.database.Student).first()
+    #####
+
     if lecture is None:
         abort(404)
     subjects = db.session.query(chalktalk.database.Subject).filter_by(lecture_id=lecture.id).all()
 
+    valid_form = True
     if request.method == 'POST':
+        lecture_feedback = db.add_lecture_feedback(student, lecture, '')
         for subject in subjects:
             keys = ['{}_keyword'.format(subject.id),
                     '{}_rating'.format(subject.id),
@@ -38,9 +46,17 @@ def feedbackform(lecture_id):
             if (keys[0] in request.form and
                     keys[1] in request.form and
                     keys[2] in request.form):
-                print(request.form[keys[0]],
-                      request.form[keys[1]],
-                      request.form[keys[2]])
+                db.add_subject_feedback(lecture_feedback,
+                                        subject,
+                                        request.form[keys[1]],
+                                        request.form[keys[2]])
+            else:
+                valid_form = False
+                break
+
+        if valid_form:
+            db.save_changes()
+            return redirect('/lecturelist')
 
     return render_template('feedbackform.html',
                            lecture_id=lecture_id,

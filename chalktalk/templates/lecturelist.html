@@ -87,7 +87,8 @@
               <a href="#">Monday</a>
           </td>
           <td data-title="Date">
-              <a href="#">01.01 - Intro</a>
+              <!-- @@@ THIS SHOULD NOT BE HARDCODED. JUST FOR TESTING --!>
+              <a href="{{ url_for('lecturefeedback', lecture_id=1) }}">01.01 - Intro</a>
           </td>
           <td data-title="Keywords">
               <a href="#">Course layout, exercise plan</a>
