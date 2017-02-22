@@ -1,36 +1,39 @@
 {% extends "master.html" %}
 
-{% block title %}Tilbakemelding{% endblock %}
+{% block title %}Feedback{% endblock %}
 
 {% block body %}
-    <h2>Feedback for {{ lecture }}</h2>
-    <form action="{{ url_for('feedbackform') }}" method=post>
-    {{ form.hidden_tag() }}
+
+<h2>Feedback for lecture in {{ lecture.course.code_name }}, {{ lecture.date.date() }}</h2>
+<form action="{{ url_for('feedbackform', lecture_id=lecture_id) }}" method=POST>
     <table class="table">
         <thead>
             <tr>
-                <th>Tema</th>
-                <th>{{ form.rating.label }}</th>
-                <th>{{ form.comment.label }}</th>
+                <th>Subject</th>
+                <th>Comprehension rating</th>
+                <th>Comment</th>
             </tr>
         </thead>
-    {% for subject in subjects %}
-
-                <tbody>
-                    <td>{{ subject }}</td>
-                    <td>
-                        {% for rating in form.rating %}
-                            {{ rating.label }}
-                            {{ rating }}
-                        {% endfor %}
-                    </td>
-                    <td>{{ form.comment }}</td>
-                </tbody>
-
-    {% endfor %}
+        {% for subject in subjects %}
+        <tbody>
+            <td>
+                <input type="hidden" name="{{ subject.id }}_keyword" value="{{ subject.keyword }}">{{ subject.keyword }}
+            </td>
+            <td>
+            {% for i in range(1, 6) %}
+                <label class="radio-inline">
+                    <input type="radio" value="{{ i }}" name="{{ subject.id }}_rating">{{ i }}
+                </label>
+            {% endfor %}
+            </td>
+            <td>
+                <textarea class="form-control" rows="1" name="{{ subject.id }}_comment"></textarea>
+            </td>
+        </tbody>
+        {% endfor %}
     </table>
-    {{ form.submit }}
-    </form>
+    <input class="btn btn-default" type="submit" value="Submit">
+</form>
 
 {% endblock %}
 
