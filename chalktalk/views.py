@@ -14,8 +14,8 @@ def index():
 
 
 @app.route('/lecturelist')
-def lecturer():
-    return render_template('lecturer.html')
+def lecturelist():
+    return render_template('lecturelist.html')
 
 @app.route('/createlecturelist')
 def createlecturelist():
@@ -33,13 +33,13 @@ def feedbackform():
         return render_template('feedbackform.html', form=form, lecture=lecture, subjects=subjects)
 
 @app.route('/lecturefeedback/<lecture_id>')
-def feedbackLecturer(lecture_id):
+def lecturefeedback(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
         abort(404)
     subjects = db.get_subject_values(lecture)
     print(subjects)
-    return render_template('feedbackLecturer.html', subjects=subjects)
+    return render_template('lecturefeedback.html', subjects=subjects)
 
 @app.route('/lecturertest')
 def lecturertest():
