@@ -30,10 +30,14 @@
                 <div id="graphs_{{ subject['name']|lower }}" class="tab-pane">
                     <p>Graphs</p>
 
-
-                    <canvas id="myChart"></canvas>
-
                     <script>
+
+                        if("{{ subject['name']}}" == "Utvikling"){
+                            console.log("Utvikling");
+                        }
+                        else{
+                            console.log("Programvare");
+                        }
 
                         var rating = {{subject['ratings']}};
 
@@ -53,6 +57,8 @@
 
                     </script>
 
+
+                 <canvas id="myChart"></canvas>
 
                 </div>
 
