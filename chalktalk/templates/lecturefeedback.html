@@ -30,6 +30,8 @@
                 <div id="graphs_{{ subject['name']|lower }}" class="tab-pane">
                     <p>Graphs</p>
 
+                    <canvas id="{{ subject['name']|lower }}_myChart"></canvas>
+
                     <script>
 
                         if("{{ subject['name']}}" == "Utvikling"){
@@ -42,7 +44,7 @@
                         var rating = {{subject['ratings']}};
 
 
-                        var ctx = document.getElementById('myChart').getContext('2d');
+                        var ctx = document.getElementById('{{ subject['name']|lower }}_myChart').getContext('2d');
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
@@ -58,7 +60,6 @@
                     </script>
 
 
-                 <canvas id="myChart"></canvas>
 
                 </div>
 

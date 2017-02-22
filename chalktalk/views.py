@@ -1,6 +1,5 @@
 from chalktalk import app
 from flask import render_template, request, url_for, redirect, abort
-from chalktalk.feedbackforms import Feedbackform
 import chalktalk.database
 
 database_url = 'sqlite:///dummy.db'
@@ -62,4 +61,3 @@ def lecturefeedback(lecture_id):
 @app.route('/lecturertest')
 def lecturertest():
     return render_template('lecturertest.html')
-
