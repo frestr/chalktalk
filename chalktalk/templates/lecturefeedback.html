@@ -28,7 +28,6 @@
         <div id="tab_content" class="tab-content">
             {% for subject in subjects %}
                 <div id="graphs_{{ subject['name']|lower }}" class="tab-pane">
-                    <p>Graphs</p>
 
                     <canvas id="{{ subject['name']|lower }}_myChart"></canvas>
 
@@ -46,14 +45,42 @@
 
                         var ctx = document.getElementById('{{ subject['name']|lower }}_myChart').getContext('2d');
                         var myChart = new Chart(ctx, {
+                            scaleFontColor: "white",
                             type: 'bar',
                             data: {
                                 labels: ['1', '2', '3', '4', '5'],
                                 datasets: [{
                                     label: 'Rating',
                                     data: rating,
-                                    backgroundColor: "rgba(55,125,255,0.4)"
+                                    backgroundColor: "rgba(218, 221, 39, 0.8)"
                                 }]
+                            },
+                            options: {
+                                legend: {labels:{fontColor:"white", fontSize: 18}},
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            fontColor: "white",
+                                            beginAtZero:true
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Amount',
+                                            fontColor: "white"
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        ticks: {
+                                            fontColor: "white",
+                                            beginAtZero:true
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Rating',
+                                            fontColor: "white"
+                                        }
+                                    }]
+                                }
                             }
                         });
 
