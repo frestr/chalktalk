@@ -4,6 +4,8 @@
 
 {% block body %}
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
         <style>
             body{
                 color: white;
@@ -27,6 +29,31 @@
             {% for subject in subjects %}
                 <div id="graphs_{{ subject['name']|lower }}" class="tab-pane">
                     <p>Graphs</p>
+
+
+                    <canvas id="myChart"></canvas>
+
+                    <script>
+
+                        var rating = {{subject['ratings']}};
+
+
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ['1', '2', '3', '4', '5'],
+                                datasets: [{
+                                    label: 'Rating',
+                                    data: rating,
+                                    backgroundColor: "rgba(55,125,255,0.4)"
+                                }]
+                            }
+                        });
+
+                    </script>
+
+
                 </div>
 
                 <div id="messages_{{ subject['name']|lower }}" class="tab-pane">
