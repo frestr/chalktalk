@@ -44,3 +44,4 @@ def lecturefeedback(lecture_id):
 @app.route('/lecturertest')
 def lecturertest():
     return render_template('lecturertest.html')
+
