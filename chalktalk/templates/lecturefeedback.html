@@ -10,6 +10,11 @@
             body{
                 color: white;
             }
+
+            canvas{
+                background-color: white;
+            }
+
         </style>
 
         <ul id="tabs" class="center-block nav nav-tabs" data-tabs="tabs">
@@ -52,32 +57,32 @@
                                 datasets: [{
                                     label: 'Rating',
                                     data: rating,
-                                    backgroundColor: "rgba(218, 221, 39, 0.8)"
+                                    backgroundColor: "rgba(5, 23, 142, 0.8)"
                                 }]
                             },
                             options: {
-                                legend: {labels:{fontColor:"white", fontSize: 18}},
+                                legend: {labels:{fontColor:"black", fontSize: 18}},
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            fontColor: "white",
+                                            fontColor: "black",
                                             beginAtZero:true
                                         },
                                         scaleLabel: {
                                             display: true,
                                             labelString: 'Amount',
-                                            fontColor: "white"
+                                            fontColor: "black"
                                         }
                                     }],
                                     xAxes: [{
                                         ticks: {
-                                            fontColor: "white",
+                                            fontColor: "black",
                                             beginAtZero:true
                                         },
                                         scaleLabel: {
                                             display: true,
                                             labelString: 'Rating',
-                                            fontColor: "white"
+                                            fontColor: "black"
                                         }
                                     }]
                                 }
