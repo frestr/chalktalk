@@ -56,17 +56,12 @@
 
     </style>
 
-
-
-
-
-
 <div class="container text-center title-box">
-    <H1> Welcome Lecturer  </H1>
+    <H1>Lecture list</H1>
 </div>
 
 <div class="container text-center">
-    <h2> Course XXXX </h2>
+    <h2> Course {{ course.code_name }}</h2>
 </div>
 
 
@@ -76,181 +71,31 @@
   <table id="table" class="table table striped table-hover">
       <thead>
         <tr>
-          <th>Day</th>
-          <th>Name</th>
-          <th>Keywords</th>
+          <th>Date</th>
+          <th>Parallel</th>
+          <th>Subjects</th>
         </tr>
       </thead>
       <tbody>
+      {% for lecture in course.lectures %}
         <tr>
-          <td data-title="Day">
-              <a href="#">Monday</a>
-          </td>
           <td data-title="Date">
-              <!-- @@@ THIS SHOULD NOT BE HARDCODED. JUST FOR TESTING --!>
-              <a href="{{ url_for('lecturefeedback', lecture_id=1) }}">01.01 - Intro</a>
+              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.date.strftime("%Y-%m-%d %H:%M") }}</a>
           </td>
-          <td data-title="Keywords">
-              <a href="#">Course layout, exercise plan</a>
+          <td data-title="Parallel">
+              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.parallel }}</a>
+          </td>
+          <td data-title="Subjects">
+              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">
+              {% for subject in lecture.subjects %}
+                  {{ subject.keyword }},
+              {% endfor %}
+              </a>
           </td>
         </tr>
-        <tr>
-          <td data-title="Day">
-              <a href="#">Wednesday</a>
-          </td>
-          <td data-title="Date">
-              <a href="#">03.01 - Intro lab</a>
-          </td>
-          <td data-title="Keywords">
-              <a href="#">Lab plan</a>
-          </td>
-        </tr>
-        <tr>
-          <td data-title="Day">
-              <a href="#">Friday</a>
-          </td>
-          <td data-title="Date">
-              <a href="#">05.01 - Intro to functions</a>
-          </td>
-          <td data-title="Keywords">
-              <a href="#">Function calls, return types, arguments, parameters</a>
-          </td>
-        </tr>
+      {% endfor %}
       </tbody>
     </table>
   </div>
-
-
-
-<!--
-<div class="container">
-  <div class="row">
-
-      	<div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-              <th>Table heading</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-             <tr>
-              <td>8</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-              <td>Table cell</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-	</div>
-</div>
-
--->
-
-<!--
-
-<div class="container">
-    <div class="tab">
-        <table class="table table-hover ">
-            <thead>
-                <tr>
-                    <td><b>All Users1</b></td>
-                    <td><b>All Users2</b></td>
-                    <td><b>All Users3</b></td>
-                </tr>
-                 <tr>
-                    <td><b>All Users4</b></td>
-                     <td><b>All Users5</b></td>
-                     <td><b>All Users6</b></td>
-                </tr>
-                 <tr>
-                    <td><b>All Users7</b></td>
-                     <td><b>All Users8</b></td>
-                     <td><b>All Users9</b></td>
-                </tr>
-            </thead>
-            <tbody>
-                something..
-            </tbody>
-        </table>
-    </div>
-</div>
-
--->
-
 
 {% endblock %}

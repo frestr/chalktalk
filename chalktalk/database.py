@@ -168,7 +168,7 @@ class DatabaseManager():
             name = subject.keyword
             ratings = [feedback.comprehension_rating for feedback in subject.feedbacks]
             rating_counts = [ratings.count(i) for i in range(1, 6)]
-            comments = [(feedback.comprehension_rating, feedback.comment)
+            comments = [(feedback.comprehension_rating, feedback.comment, feedback.lecture_feedback.student.id)
                             for feedback in subject.feedbacks]
             data.append({'name': name,
                          'ratings': rating_counts,
