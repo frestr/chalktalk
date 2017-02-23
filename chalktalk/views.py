@@ -57,7 +57,7 @@ def feedbackform(lecture_id):
 
         if valid_form:
             db.save_changes()
-            return redirect('/lecturelist')
+            return redirect('/lecturelist/{}'.format(lecture.course_id))
 
     return render_template('feedbackform.html',
                            lecture_id=lecture_id,
@@ -71,7 +71,6 @@ def lecturefeedback(lecture_id):
     if lecture is None:
         abort(404)
     subjects = db.get_subject_values(lecture)
-    print(subjects)
     return render_template('lecturefeedback.html', subjects=subjects)
 
 
