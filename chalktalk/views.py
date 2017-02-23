@@ -57,7 +57,7 @@ def feedbackform(lecture_id):
 
         if valid_form:
             db.save_changes()
-            return redirect('/lecturelist')
+            return redirect('/lecturelist/{}'.format(lecture.course_id))
 
     return render_template('feedbackform.html',
                            lecture_id=lecture_id,
