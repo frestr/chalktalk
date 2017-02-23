@@ -13,9 +13,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/lecturelist')
-def lecturelist():
-    return render_template('lecturelist.html')
+@app.route('/lecturelist/<course_id>')
+def lecturelist(course_id):
+    course = db.session.query(chalktalk.database.Course).get(course_id)
+    return render_template('lecturelist.html', course=course)
 
 
 @app.route('/createlecturelist')
@@ -25,7 +26,7 @@ def createlecturelist():
 
 @app.route('/feedback/<lecture_id>', methods=['POST', 'GET'])
 def feedbackform(lecture_id):
-    lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
+    lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
     ##### NB : This should be the student giving the feedback, not just a 
     ##### random student like now (just for testing)
