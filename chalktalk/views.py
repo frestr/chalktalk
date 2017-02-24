@@ -13,7 +13,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/lecturelist/<course_id>')
+@app.route('/lecturelist/<int:course_id>')
 def lecturelist(course_id):
     course = db.session.query(chalktalk.database.Course).get(course_id)
     return render_template('lecturelist.html', course=course)
@@ -24,7 +24,7 @@ def createlecturelist():
     return render_template('createlecturelist.html')
 
 
-@app.route('/feedback/<lecture_id>', methods=['POST', 'GET'])
+@app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
 def feedbackform(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
@@ -65,7 +65,7 @@ def feedbackform(lecture_id):
                            subjects=subjects)
 
 
-@app.route('/lecturefeedback/<lecture_id>')
+@app.route('/lecturefeedback/<int:lecture_id>')
 def lecturefeedback(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
