@@ -20,6 +20,8 @@ class TestDatabaseManager(unittest.TestCase):
         else:
             self.fail()
 
+        self.db.save_changes()
+
         self.assertEqual(self.db.session.query(models.User).count(), before_count+1)
         self.assertEqual(
                 self.db.session.query(models.User).
@@ -47,6 +49,7 @@ class TestDatabaseManager(unittest.TestCase):
         before_count = self.db.session.query(models.Course).count()
 
         self.db.add_course(code_name, full_name, semester)
+        self.db.save_changes()
 
         self.assertEqual(self.db.session.query(models.Course).count(), before_count+1)
         self.assertEqual(
