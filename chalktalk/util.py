@@ -1,3 +1,5 @@
+from urllib.parse import urlparse, urljoin
+from flask import request
 import re
 
 
@@ -7,3 +9,10 @@ def valid_uuid(uuid):
 
 def valid_semester(semester):
     return re.fullmatch('(V|H)[1-9][0-9]{3}', semester) is not None
+
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc

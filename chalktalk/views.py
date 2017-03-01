@@ -1,19 +1,105 @@
-from chalktalk import app
-from flask import render_template, request, url_for, redirect, abort
+from chalktalk import app, util
+from flask import render_template, request, redirect, abort, url_for, flash
 import chalktalk.database
+import flask_login
+from chalktalk.oauth import DataportenSignin
 
 database_url = 'sqlite:///dummy.db'
 db = chalktalk.database.DatabaseManager(database_url)
 
 app.secret_key = 'development key'
 
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def user_loader(user_id):
+    # get will return None if not found (this is what flask_login expects)
+    user = db.session.query(chalktalk.models.User).get(user_id)
+    return user
+
+
+@app.teardown_appcontext
+def shutdown_database_session(exception=None):
+    """Close the database on application shutdown."""
+    db.shutdown_session()
+
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    """Render home page if the user is authenticated.
+    Otherwise redirect to login page."""
+    if flask_login.current_user.is_authenticated:
+        # return redirect(url_for('courselist'))
+        # @@@ Temporary for testing
+        return redirect(url_for('lecturelist', course_id=1))
+    else:
+        return render_template('index.html')
+
+
+@app.route('/__oauth/authorize')
+def oauth_authorize():
+    if flask_login.current_user.is_authenticated:
+        return redirect(url_for('index'))
+    oauth = DataportenSignin()
+    return oauth.authorize()
+
+
+@app.route('/__oauth/callback')
+def oauth_callback():
+    if flask_login.current_user.is_authenticated:
+        return redirect(url_for('index'))
+    oauth = DataportenSignin()
+    userinfo, groups = oauth.callback()
+
+    if userinfo is None:
+        flash('Authentication failed', 'error')
+        return redirect(url_for('index'))
+
+    if groups is None:
+        flash('Could not fetch groups from feide', 'error')
+        return redirect(url_for('index'))
+
+    user = db.session.query(chalktalk.models.User).filter_by(uuid=userinfo['userid']).first()
+
+    # user is None = new user
+    if user is None:
+        role = ''
+        for group in groups:
+            # All NTNU students/employees are in this group
+            if group['id'] == 'fc:org:ntnu.no':
+                role = group['membership']['primaryAffiliation']
+                break
+        if role == 'student':
+            user = db.add_student(userinfo['userid'], userinfo['name'])
+        elif role == 'employee':
+            user = db.add_lecturer(userinfo['userid'], userinfo['name'])
+        else:
+            flash('You are registered as neither student nor employee in feide')
+            return redirect(url_for('index'))
+        db.save_changes()
+
+    flask_login.login_user(user)
+
+    # Prevent open redirects
+    next = request.args.get('next')
+    if not util.is_safe_url(next):
+        return abort(400)
+
+    return redirect(next or url_for('index'))
+
+
+@app.route('/logout')
+@flask_login.login_required
+def logout():
+    """Log current user out and redirect to login page."""
+    flask_login.logout_user()
+    return redirect(url_for('index'))
 
 
 @app.route('/lecturelist/<int:course_id>')
+@flask_login.login_required
 def lecturelist(course_id):
     course = db.session.query(chalktalk.database.Course).get(course_id)
     return render_template('lecturelist.html', course=course)
