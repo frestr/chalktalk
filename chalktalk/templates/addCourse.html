@@ -1,0 +1,37 @@
+{% extends "master.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+    <form>
+        <div class="form-group">
+            <label for="courseName">Course name:</label>
+            <input type="text" class="form-control" id="courseName">
+         </div>
+
+        <div class="form-group">
+            <label for="monday">Monday</label>
+            <input type="checkbox" name="monday">
+            <label for="tuesday">Tuesday</label>
+            <input type="checkbox" name="tuesday">
+            <label for="wednesday">Wednesday</label>
+            <input type="checkbox" name="wednesday">
+            <label for="thursday">Thursday</label>
+            <input type="checkbox" name="thursday">
+            <label for="friday">Friday</label>
+            <input type="checkbox" name="friday">
+        </div>
+
+        <div>
+            <label for="fromDate">Lectures start:</label>
+            <input type="date" class="form-control" name="fromDate">
+
+            <label for="toDate">Lectures end:</label>
+            <input type="date" class="form-control" name="toDate">
+        </div>
+
+        <input type="submit" class="form-control" value="Submit">
+    </form>
+
+{% endblock %}
