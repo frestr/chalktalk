@@ -33,10 +33,10 @@
                 </tr>
             </thead>
             <tbody>
-                    <tr>
-                        <td>{{ course.code_name }}</td>
-                        <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
-                    </tr>
+                <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
+                    <td>{{ course.code_name }}</td>
+                    <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                </tr>
             </tbody>
         </table>
 {% endfor %}
