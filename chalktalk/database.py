@@ -90,7 +90,8 @@ class DatabaseManager():
         student : Student object
         courtse : Course object
         '''
-        course.students.append(student)
+        if student not in course.students:
+            course.students.append(student)
 
     def add_lecturer_to_course(self, lecturer, course):
         '''Add a lecturer to a course's lecturer list
@@ -98,7 +99,8 @@ class DatabaseManager():
         lecturer : Lecturer object
         course   : Course object
         '''
-        course.lecturers.append(lecturer)
+        if lecturer not in course.lecturers:
+            course.lecturers.append(lecturer)
 
     def add_lecture(self, course, date, parallel, lecturers):
         '''Add a lecture

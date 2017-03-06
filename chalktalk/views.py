@@ -3,6 +3,7 @@ from flask import render_template, request, redirect, abort, url_for, flash
 import chalktalk.database
 import flask_login
 from chalktalk.oauth import DataportenSignin
+import re
 
 database_url = 'sqlite:///dummy.db'
 db = chalktalk.database.DatabaseManager(database_url)
@@ -63,7 +64,7 @@ def oauth_callback():
 
     user = db.session.query(chalktalk.models.User).filter_by(uuid=userinfo['userid']).first()
 
-    # user is None = new user
+    # Add a new user if not already registered
     if user is None:
         role = ''
         for group in groups:
@@ -78,8 +79,22 @@ def oauth_callback():
         else:
             flash('You are registered as neither student nor employee in feide')
             return redirect(url_for('index'))
-        db.save_changes()
 
+    # Add the user to courses he either takes or lectures
+    for group in groups:
+        course_pattern = 'fc:fs:fs:emne:ntnu\.no:([A-Z]{3}[0-9]{4}):1'
+        match = re.fullmatch(course_pattern, group['id'])
+        if match:
+            code_name = match.group(1)
+            course = db.session.query(chalktalk.models.Course).filter_by(code_name=code_name).first()
+            if course:
+                role = group['membership']['fsroles']
+                if role == 'STUDENT':
+                    db.add_student_to_course(user, course)
+                elif role == 'EMPLOYEE':
+                    db.add_lecturer_to_course(user, course)
+
+    db.save_changes()
     flask_login.login_user(user)
 
     # Prevent open redirects
