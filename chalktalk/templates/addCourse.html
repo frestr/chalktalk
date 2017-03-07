@@ -3,22 +3,38 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <label for="course_id">Course name:</label>
+    <style>
+        #course_label{
+            color: white;
+        }
+    </style>
+
+    <label id="course_label" for="course_id">Course:</label>
      <select name="course_id" id="course_id" form="courseForm">
-        {% for course in courses %}
+        {% for course in availableCourses %}
             <option value="{{ course }}">{{ course }}</option>
         {% endfor %}
     </select>
 
-    <form action="{{ url_for("addcourse") }}" id="courseForm">
+    <form action="{{ url_for("addcourse") }}" id="courseForm" method="POST">
         {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
 
+        <div>
+            <label for="fromDate">Lectures start date:</label>
+            <input type="datetime" name="fromDate" id="fromDate">
+
+            <label for="toDate">Lectures end date:</label>
+            <input type="datetime" name="toDate" id="toDate">
+        </div>
+
         <div class="form-group">
-            <table class="table-bordered">
+            <table class="table table-bordered">
                 {% for day in days %}
                 <tr>
                     <td>
                         <label for="{{ day|lower }}">{{ day }}</label>
+                    </td>
+                    <td>
                         <input type="checkbox" class="form-control" name="{{ day|lower }}" id="{{ day|lower }}">
                     </td>
                     <td>
@@ -29,15 +45,6 @@
                {% endfor %}
             </table>
         </div>
-
-        <div>
-            <label for="fromDate">Lectures start:</label>
-            <input type="datetime" class="form-control" name="fromDate" id="fromDate">
-
-            <label for="toDate">Lectures end:</label>
-            <input type="datetime" class="form-control" name="toDate" id="toDate">
-        </div>
-
-        <input type="submit" class="form-control" value="Submit">
+        <input type="submit" class="btn btn-lg btn-primary btn-block " value="Submit">
     </form>
 {% endblock %}
