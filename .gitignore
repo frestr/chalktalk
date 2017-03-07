@@ -97,3 +97,5 @@ include/
 lib64
 pip-selfcheck.json
 dummy.db
+
+/chalktalk/secret_settings.py
