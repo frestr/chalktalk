@@ -1,0 +1,45 @@
+{% extends "master.html" %}
+
+{% block title %}Mine kurs{% endblock %}
+
+{% block body %}
+
+<style>
+        .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+            background-color: #c4c4c4;
+        }
+
+        .table-hover>tbody>tr:hover>td>a{
+            color: white;
+        }
+
+        .container{
+            width: 800px;
+        }
+
+</style>
+
+<div class="container text-center title-box">
+    <H1>Course list</H1>
+</div>
+
+
+{% for course in courses %}
+        <table id="table" class="table table striped table-hover">
+            <thead>
+                <tr>
+                    <th>Course code</th>
+                    <th>Course name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
+                    <td>{{ course.code_name }}</td>
+                    <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+{% endfor %}
+
+
+{% endblock %}
