@@ -3,20 +3,21 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    {% set course_id = "XMPL1234" %}
-    {% set dates = [("Monday", "03.01.2018"),("Tuesday", "04.01.2018"), ("Wednesday", "05.01.2018"),
+    {#  set dates = [("Monday", "03.01.2018"),("Tuesday", "04.01.2018"), ("Wednesday", "05.01.2018"),
         ("Thursday", "06.01.2018"), ("Friday", "07.01.2018"), ("Saturday", "08.01.2018"),
         ("Sunday", "09.01.2018"), ("Monday", "10.01.2018"), ("Tuesday", "11.01.2018"),
         ("Wednesday", "12.01.2018"), ("Thursday", "13.01.2018"), ("Friday", "14.01.2018"),
-        ("Saturday", "15.01.2018"), ("Sunday", "16.01.2018")] %}
-    {% set lectureDays = ["tuesday", "thursday"] %}
+        ("Saturday", "15.01.2018"), ("Sunday", "16.01.2018")] #}
+    {# set lectureDays = ["tuesday", "thursday"] #}
+
+
 
     <div class="text-center">
-        <h3>Edit lectures and tags for {{ course_id }}</h3>
+        <h3>Edit lectures and tags for {{ course.code_name }}</h3>
     </div>
 
 
-    <form action="{{ url_for('createlecturelist') }}" method=POST>
+    <form action="{{ url_for('createlecturelist', course_id = course.id) }}" method=POST>
         <table class="table">
             <thead>
                 <tr>
@@ -39,7 +40,7 @@
                     {% set weekday = date[0] %}
                     {% if weekday|lower in lectureDays %}
                         {% set id = i[0] %}
-                        {% set lecture_id = course_id + "_lecture_" + id|string %}
+                        {% set lecture_id = course.code_name + "_lecture_" + id|string %}
                         <td>
                             <b>Lecture #{{ id }}</b>
                         </td>
@@ -56,7 +57,6 @@
             {% endfor %}
             </tbody>
         </table>
-
         <input class="btn btn-lg btn-block btn-primary" type="submit" value="save">
     </form>
 {% endblock %}
