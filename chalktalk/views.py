@@ -25,9 +25,10 @@ def lecturelist(course_id):
     return render_template('lecturelist.html', course=course)
 
 
-@app.route('/createlecturelist')
-def createlecturelist():
-    return render_template('createLecturelist.html')
+@app.route('/createlecturelist/<int:course_id>', methods=['POST', 'GET'])
+def createlecturelist(course_id):
+    course = db.session.query(chalktalk.database.Course).get(course_id)
+    return render_template('createlecturelist.html', course=course)
 
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
