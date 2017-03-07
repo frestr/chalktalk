@@ -30,7 +30,7 @@ def lecturelist(course_id):
 
 @app.route('/createlecturelist')
 def createlecturelist():
-    return render_template('createlecturelist.html')
+    return render_template('createLecturelist.html')
 
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
@@ -86,3 +86,8 @@ def lecturefeedback(lecture_id):
 @app.route('/lecturertest')
 def lecturertest():
     return render_template('lecturertest.html')
+
+@app.route('/addcourse')
+def addcourse():
+    return render_template('addCourse.html')
+
