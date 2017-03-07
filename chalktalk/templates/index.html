@@ -24,31 +24,15 @@ body{
     background-color: black;
 }
 
-
-
 </style>
 
 <div class="container text-center title-box">
-    <H1> Chalk Talk </H1>
+    <H1>Chalk Talk</H1>
 </div>
 
-
 <div class="container login">
-    <form class="form-signin">
-
-        <h3 class="form-signin-heading"> Please sign in using FEIDE</h3>
-
-        <label for="username" class="sr-only"> Username </label>
-        <input type="username" name="inputUsername" class="form-control" placeholder="Username" required>
-
-        <label for="password" class="sr-only"> Password </label>
-        <input type="password" name="inputPassword" class="form-control" placeholder="Password" requiredu>
-
-        <a href="{{url_for('lecturelist', course_id=1)}}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit"> Login </a>
-
-
-
-    </form>
+    <h3 class="form-signin-heading"> Please log in using FEIDE</h3>
+    <a href="{{ url_for('oauth_authorize') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log in</a>
 </div>
 
 {% endblock %}

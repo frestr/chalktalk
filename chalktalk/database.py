@@ -31,15 +31,15 @@ class DatabaseManager():
         '''Close the database'''
         self.session.remove()
 
-    def _add_user(self, oauth_id, name, role):
+    def _add_user(self, uuid, name, role):
         '''Internal method for generically adding users'''
-        if self.session.query(User).filter_by(oauth_id=oauth_id).count() != 0:
+        if self.session.query(User).filter_by(uuid=uuid).count() != 0:
             return None
 
         if role == 'student':
-            user = Student(oauth_id=oauth_id, name=name)
+            user = Student(uuid=uuid, name=name)
         elif role == 'lecturer':
-            user = Lecturer(oauth_id=oauth_id, name=name)
+            user = Lecturer(uuid=uuid, name=name)
         else:
             return None
 
@@ -47,21 +47,21 @@ class DatabaseManager():
 
         return user
 
-    def add_student(self, oauth_id, name):
+    def add_student(self, uuid, name):
         '''Add a new student
 
-        oauth_id : dataporten UUID, in format '7b96eab9-b69e-4b8c-9636-1da868207864'
+        uuid     : dataporten UUID, in format '7b96eab9-b69e-4b8c-9636-1da868207864'
         name     : full name of student
         '''
-        return self._add_user(oauth_id, name, 'student')
+        return self._add_user(uuid, name, 'student')
 
-    def add_lecturer(self, oauth_id, name):
+    def add_lecturer(self, uuid, name):
         '''Add a new lecturer
 
-        oauth_id : dataporten UUID, in format '7b96eab9-b69e-4b8c-9636-1da868207864'
+        uuid     : dataporten UUID, in format '7b96eab9-b69e-4b8c-9636-1da868207864'
         name     : full name of lecturer
         '''
-        return self._add_user(oauth_id, name, 'lecturer')
+        return self._add_user(uuid, name, 'lecturer')
 
     def add_course(self, code_name, full_name, semester, lecturers=[]):
         '''Add a new course
@@ -90,7 +90,8 @@ class DatabaseManager():
         student : Student object
         courtse : Course object
         '''
-        course.students.append(student)
+        if student not in course.students:
+            course.students.append(student)
 
     def add_lecturer_to_course(self, lecturer, course):
         '''Add a lecturer to a course's lecturer list
@@ -98,7 +99,8 @@ class DatabaseManager():
         lecturer : Lecturer object
         course   : Course object
         '''
-        course.lecturers.append(lecturer)
+        if lecturer not in course.lecturers:
+            course.lecturers.append(lecturer)
 
     def add_lecture(self, course, date, parallel, lecturers):
         '''Add a lecture

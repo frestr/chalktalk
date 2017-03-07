@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Table
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from chalktalk.database import Base
+from flask_login import UserMixin
 
 
 # This is used for many-to-many relations
@@ -24,10 +25,10 @@ relation_tables = {
 }
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    oauth_id = Column(String(512))
+    uuid = Column(String(512))
     name = Column(String(256))
     type = Column(String(50))
 
