@@ -16,9 +16,6 @@ def index():
 @app.route('/courselist/')
 def courselist():
     courses = db.session.query(chalktalk.database.Course).all()
-
-    for course in courses:
-        print(course.full_name)
     return render_template('courselist.html', courses=courses)
 
 

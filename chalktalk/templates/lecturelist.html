@@ -50,7 +50,7 @@
       </thead>
       <tbody>
       {% for lecture in course.lectures %}
-        <tr>
+        <tr class="clickable-row" data-href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">
           <td data-title="Date">
               <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.date.strftime("%Y-%m-%d %H:%M") }}</a>
           </td>
