@@ -48,16 +48,15 @@
                         </td>
                         <td>
                             <input class="form-control" type="text" name="{{ lecture_id }}_tags"
-                                   id="{{ lecture_id }}_tags" value="#example1, #example2">
+                                   id="{{ lecture_id }}_tags" value="#example one #example two">
                         </td>
                         {% if i.append(i.pop() + 1) %}{% endif %}
                     {% endif %}
                 </tr>
             {% endfor %}
-
             </tbody>
         </table>
 
-        <input class="btn btn-default" type="submit" value="save">
+        <input class="btn btn-lg btn-block btn-primary" type="submit" value="save">
     </form>
 {% endblock %}
