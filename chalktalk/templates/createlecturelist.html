@@ -1,143 +1,40 @@
 {% extends "master.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 
-    <style>
+    {% set dates = [("Monday", "03.01.2018"),("Tuesday", "04.01.2018"), ("Wednesday", "05.01.2018"),
+        ("Thursday", "06.01.2018")] %}
+    {% set lectureDays = ["tuesday", "thursday"] %}
 
+    <h3>Edit lectures and </h3>
 
-        h3{
-            color: white;
-        }
-        th{
-            color: white;
-        }
-
-        td{
-
-            color: white;
-        ]
-
-        #courseField{
-
-            margin-top: 200 px;
-
-        }
-
-        #containerLeft{
-
-            width: 600px;
-
-
-        }
-
-        #containerRight{
-
-            width: 300px;
-            float: right;
-
-        }
-
-        #generateListBtn{
-
-            width: 50px;
-
-        }
-
-
-
-
-    </style>
-
-<!-- background-color: green; background: rgba(0, 75, 0, 0.3); -->
-
-    <div id="courseField" class="container">
-        <div class="form-group">
-            <label for="inputCourse"><h3>Course</h3></label>
-            <input type="course" class="form-control" id="inputCourse" aria-describedby="courseHelp" placeholder="Enter course">
-        </div>
-    </div>
-
-    <div id="containerLeft" class="container">
-       <table id="tableLft" class="table">
-          <thead>
-            <tr>0
-              <th>Day</th>
-              <th>Time</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-            <tbody>
+    <form action="{{ url_for('createlecturelist') }}" method=POST>
+        <table class="table">
+            {% set i = [0] %}
+            {% for date in dates %}
                 <tr>
-                  <td data-title="Day">Monday</td>
-                  <td data-title="Name">
-                      <label for="username" class="sr-only"> Time </label>
-                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
-                  </td>
-                    <td data-title="Status">
-                        <form action="">
-                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
-                        </form>
-                    </td>
+                    {# set weekday = date.strftime("%A") #}
+                    {% set weekday = date[0] %}
+                    {% if weekday|lower in lectureDays %}
+                        {% set lecture_id = "lecture_" + id|string %}
+                        {% set id = i[0] %}
+                        <td>
+                            {{ weekday + " " + date[1] }}
+                        </td>
+                        <td>
+                            <label for="{{ lecture_id }}">Lecture {{ id }}: Tags:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="{{ lecture_id }}" id="{{ lecture_id }}">
+                        </td>
+                        {% if i.append(i.pop() + 1) %}{% endif %}
+                    {% endif %}
                 </tr>
-                <tr>
-                  <td data-title="Day">Tuesday</td>
-                  <td data-title="Name">
-                      <label for="username" class="sr-only"> Time </label>
-                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
-                  </td>
-                    <td data-title="Status">
-                        <form action="">
-                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                  <td data-title="Day">Wednesday</td>
-                  <td data-title="Name">
-                      <label for="username" class="sr-only"> Time </label>
-                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
-                  </td>
-                    <td data-title="Status">
-                        <form action="">
-                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                  <td data-title="Day">Thursday</td>
-                  <td data-title="Name">
-                      <label for="username" class="sr-only"> Time </label>
-                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
-                  </td>
-                    <td data-title="Status">
-                        <form action="">
-                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                  <td data-title="Day">Friday</td>
-                  <td data-title="Name">
-                      <label for="username" class="sr-only"> Time </label>
-                      <input type="username" name="inputUsername" class="form-control" placeholder="10:15 - 12:00" required>
-                  </td>
-                    <td data-title="Status">
-                        <form action="">
-                            <input type="checkbox" name="vehicle" value="Bike">Add to lecture plan<br>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-       </table>
-    </div>
+            {% endfor %}
+        </table>
 
-
-    <div id="generateListBtn" class="container">
-        <a href="#" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit"> Generate lecture list </a>
-    </div>
-
-
-
+        <input class="btn btn-default" type="submit" value="save">
+    </form>
 {% endblock %}
