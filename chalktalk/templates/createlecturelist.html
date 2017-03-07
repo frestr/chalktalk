@@ -3,36 +3,59 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-
+    {% set course_id = "XMPL1234" %}
     {% set dates = [("Monday", "03.01.2018"),("Tuesday", "04.01.2018"), ("Wednesday", "05.01.2018"),
-        ("Thursday", "06.01.2018")] %}
+        ("Thursday", "06.01.2018"), ("Friday", "07.01.2018"), ("Saturday", "08.01.2018"),
+        ("Sunday", "09.01.2018"), ("Monday", "10.01.2018"), ("Tuesday", "11.01.2018"),
+        ("Wednesday", "12.01.2018"), ("Thursday", "13.01.2018"), ("Friday", "14.01.2018"),
+        ("Saturday", "15.01.2018"), ("Sunday", "16.01.2018")] %}
     {% set lectureDays = ["tuesday", "thursday"] %}
 
-    <h3>Edit lectures and </h3>
+    <div class="text-center">
+        <h3>Edit lectures and tags for {{ course_id }}</h3>
+    </div>
+
 
     <form action="{{ url_for('createlecturelist') }}" method=POST>
         <table class="table">
-            {% set i = [0] %}
+            <thead>
+                <tr>
+                    <th>
+                        Lecture number
+                    </th>
+                    <th>
+                        Lecture date
+                    </th>
+                    <th>
+                        Tags
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set i = [0] %}
             {% for date in dates %}
                 <tr>
                     {# set weekday = date.strftime("%A") #}
                     {% set weekday = date[0] %}
                     {% if weekday|lower in lectureDays %}
-                        {% set lecture_id = "lecture_" + id|string %}
                         {% set id = i[0] %}
+                        {% set lecture_id = course_id + "_lecture_" + id|string %}
+                        <td>
+                            <b>Lecture #{{ id }}</b>
+                        </td>
                         <td>
                             {{ weekday + " " + date[1] }}
                         </td>
                         <td>
-                            <label for="{{ lecture_id }}">Lecture {{ id }}: Tags:</label>
-                        </td>
-                        <td>
-                            <input type="text" name="{{ lecture_id }}" id="{{ lecture_id }}">
+                            <input class="form-control" type="text" name="{{ lecture_id }}_tags"
+                                   id="{{ lecture_id }}_tags" value="#example1, #example2">
                         </td>
                         {% if i.append(i.pop() + 1) %}{% endif %}
                     {% endif %}
                 </tr>
             {% endfor %}
+
+            </tbody>
         </table>
 
         <input class="btn btn-default" type="submit" value="save">
