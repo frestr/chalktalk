@@ -80,19 +80,28 @@ def oauth_callback():
             flash('You are registered as neither student nor employee in feide')
             return redirect(url_for('index'))
 
-    # Add the user to courses he either takes or lectures
     for group in groups:
         course_pattern = 'fc:fs:fs:emne:ntnu\.no:([A-Z]{3}[0-9]{4}):1'
         match = re.fullmatch(course_pattern, group['id'])
         if match:
+            role = group['membership']['fsroles']
             code_name = match.group(1)
             course = db.session.query(chalktalk.models.Course).filter_by(code_name=code_name).first()
+            # If the course exists in the db already, add
+            # the user to courses he either takes or lectures
             if course:
-                role = group['membership']['fsroles']
                 if role == 'STUDENT':
                     db.add_student_to_course(user, course)
                 elif role == 'EMPLOYEE':
                     db.add_lecturer_to_course(user, course)
+            # If it doesn't exists, add it if the user is a lecturer
+            else:
+                full_name = group['displayName']
+                semester = util.get_semester(group)
+                # notAfter in group means that the course is old
+                if (role == 'EMPLOYEE' and
+                        'notAfter' not in group['membership']):
+                    db.add_course(code_name, full_name, semester, [user])
 
     db.save_changes()
     flask_login.login_user(user)

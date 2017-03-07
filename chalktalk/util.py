@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, urljoin
 from flask import request
+from datetime import datetime
 import re
 
 
@@ -16,3 +17,16 @@ def is_safe_url(target):
     test_url = urlparse(urljoin(request.host_url, target))
     return test_url.scheme in ('http', 'https') and \
            ref_url.netloc == test_url.netloc
+
+
+def get_semester(group_info):
+    date = None
+    # Means the course is active (in current semester)
+    if 'notAfter' not in group_info['membership']:
+        date = datetime.now()
+    else:
+        end_date = group_info['membership']['notAfter']
+        date = datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%SZ')
+    year = date.year
+    season = 'V' if date.month < 7 else 'H'
+    return '{}{}'.format(season, year)
