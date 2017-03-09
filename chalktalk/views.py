@@ -35,7 +35,7 @@ def index():
     if flask_login.current_user.is_authenticated:
         # return redirect(url_for('courselist'))
         # @@@ Temporary for testing
-        return redirect(url_for('lecturelist', course_id=1))
+        return redirect(url_for('courselist'))
     else:
         return render_template('index.html')
 
@@ -140,9 +140,9 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/courselist/')
+@app.route('/courselist')
 def courselist():
-    courses = db.session.query(chalktalk.database.Course).all()
+    courses = flask_login.current_user.courses
     return render_template('courselist.html', courses=courses)
 
 
