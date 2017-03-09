@@ -4,7 +4,7 @@ import chalktalk.database
 import flask_login
 from chalktalk.oauth import DataportenSignin
 import re
-from chalktalk.models import User, Course, Lecturer
+from chalktalk.models import User, Course
 
 database_url = 'sqlite:///dummy.db'
 db = chalktalk.database.DatabaseManager(database_url)
@@ -217,7 +217,7 @@ def lecturertest():
 def addcourse():
     curr_user = flask_login.current_user
     # Bad way to check if the user is lecturer.
-    # (e.g. with a decorator)
+    # (Maybe use a decorator or something like that instead)
     if not hasattr(curr_user, 'lectures'):
         return redirect(url_for('index'))
 
