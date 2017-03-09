@@ -31,13 +31,13 @@
     </style>
 
     <label id="course_label" for="course_id">Course:</label>
-     <select name="course_id" id="course_id" form="courseForm">
-        {% for course in availableCourses %}
+     <select name="course_id" id="course_id" form="course_form">
+        {% for course in available_courses %}
             <option value="{{ course }}">{{ course }}</option>
         {% endfor %}
     </select>
 
-    <form action="{{ url_for('addcourse'), course_id=course_id }}" id="courseForm" method="POST">
+    <form action="{{ url_for('addcourse', course_id=course_id) }}" id="course_form" method="POST">
         {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
 
         <div class="container">
