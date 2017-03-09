@@ -10,13 +10,13 @@ class TestDatabaseManager(unittest.TestCase):
     def tearDown(self):
         self.db.shutdown_session()
 
-    def add_user(self, oauth_id, name, role):
+    def add_user(self, uuid, name, role):
         before_count = self.db.session.query(models.User).count()
 
         if role == 'student':
-            self.db.add_student(oauth_id, name)
+            self.db.add_student(uuid, name)
         elif role == 'lecturer':
-            self.db.add_lecturer(oauth_id, name)
+            self.db.add_lecturer(uuid, name)
         else:
             self.fail()
 
@@ -25,25 +25,25 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(self.db.session.query(models.User).count(), before_count+1)
         self.assertEqual(
                 self.db.session.query(models.User).
-                filter_by(oauth_id=oauth_id, name=name).
+                filter_by(uuid=uuid, name=name).
                 count(), 1)
 
     def test_add_student(self):
         # Try to add the user twice. The first time the user should be properly added,
         # and the second the time nothing should change, because duplicate users
         # are not allowed
-        oauth_id = '123'
+        uuid = '123'
         name = 'bob'
-        self.add_user(oauth_id, name, 'student')
+        self.add_user(uuid, name, 'student')
         with self.assertRaises(AssertionError):
-            self.add_user(oauth_id, name, 'student')
+            self.add_user(uuid, name, 'student')
 
     def test_add_lecturer(self):
-        oauth_id = '222'
+        uuid = '222'
         name = 'arne'
-        self.add_user(oauth_id, name, 'lecturer')
+        self.add_user(uuid, name, 'lecturer')
         with self.assertRaises(AssertionError):
-            self.add_user(oauth_id, name, 'lecturer')
+            self.add_user(uuid, name, 'lecturer')
 
     def add_course(self, code_name, full_name, semester):
         before_count = self.db.session.query(models.Course).count()
