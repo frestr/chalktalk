@@ -64,6 +64,10 @@
               {% endfor %}
               </a>
           </td>
+            <td>
+                <a href="{{ url_for('feedbackform', lecture_id=lecture.id) }}"><button type="button" class="btn btn-primary glyphicon glyphicon-edit"></button></a>
+
+            </td>
         </tr>
       {% endfor %}
       </tbody>

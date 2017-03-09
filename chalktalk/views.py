@@ -180,7 +180,7 @@ def createlecturelist(course_id):
 
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
-@register_breadcrumb(app, '.feedbackform', 'Feedback Form', 2, endpoint_arguments_constructor=course_list_id)
+@register_breadcrumb(app, '.feedbackform', 'Feedback Form', 2, endpoint_arguments_constructor=lecture_list_id)
 def feedbackform(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
