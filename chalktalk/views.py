@@ -213,6 +213,7 @@ def lecturefeedback(lecture_id):
 def lecturertest():
     return render_template('lecturertest.html')
 
+
 @app.route('/addcourse')
 def addcourse():
     curr_user = flask_login.current_user

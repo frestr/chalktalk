@@ -35,6 +35,13 @@ body{
     <a href="{{ url_for('oauth_authorize') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log in</a>
 </div>
 
+<!-- For testing -->
+<div class="container login">
+    <h3 class="form-signin-heading">Development testing login</h3>
+    <a href="{{ url_for('login') }}?role=student" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log in as student</a>
+    <a href="{{ url_for('login') }}?role=lecturer" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log in as lecturer</a>
+</div>
+
 {% endblock %}
 
 
