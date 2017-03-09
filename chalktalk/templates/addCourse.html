@@ -12,7 +12,7 @@
     <label id="course_label" for="course_id">Course:</label>
      <select name="course_id" id="course_id" form="courseForm">
         {% for course in availableCourses %}
-            <option value="{{ course }}">{{ course }}</option>
+            <option value="{{ course.courseName }}">{{ course }}</option>
         {% endfor %}
     </select>
 
