@@ -24,7 +24,6 @@
 </div>
 
 
-{% for course in courses %}
         <table id="table" class="table table striped table-hover">
             <thead>
                 <tr>
@@ -33,13 +32,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
-                    <td>{{ course.code_name }}</td>
-                    <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                {% for course in courses %}
+                    <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
+                        <td>{{ course.code_name }}</td>
+                        <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                {% endfor %}
                 </tr>
             </tbody>
         </table>
-{% endfor %}
 
 <div>
     <a href="{{url_for('addcourse')}}" class="btn btn-lg  btn-primary btn-block" type="submit"> Add course </a>

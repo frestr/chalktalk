@@ -222,7 +222,7 @@ def feedbackform(lecture_id):
 
 
 @app.route('/lecturefeedback/<int:lecture_id>')
-@register_breadcrumb(app, '.lecture.feedback', 'Lecture Feedback', 3, endpoint_arguments_constructor=lecture_list_id)
+@register_breadcrumb(app, '.feedback', 'Lecture Feedback', 3, endpoint_arguments_constructor=lecture_list_id)
 def lecturefeedback(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
