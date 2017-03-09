@@ -2,6 +2,7 @@
 
 {% block title %}Home{% endblock %}
 
+
 {% block body %}
     <style>
         #course_label{
@@ -42,10 +43,11 @@
 
         <div class="container">
             <label for="fromDate">Lectures start date:</label>
-            <input type="datetime" name="fromDate" id="fromDate">
+            <p>Date: <input type="text" id="datepicker" size="30" placeholder="yyyy-mm-dd" name="fromDate" id="fromDate"></p>
+
 
             <label for="toDate">Lectures end date:</label>
-            <input type="datetime" name="toDate" id="toDate">
+            <p>Date: <input type="text" id="datepicker" size="30" placeholder="yyyy-mm-dd" name="toDate" id="toDate"></p>
         </div>
 
         <div class="form-group container">

@@ -123,6 +123,7 @@ def logout():
 
 
 @app.route('/courselist/')
+#TODO: add login req, check if student, don't show add course button if true
 def courselist():
     courses = db.session.query(chalktalk.database.Course).all()
     return render_template('courselist.html', courses=courses)
