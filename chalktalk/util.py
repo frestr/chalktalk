@@ -1,6 +1,6 @@
 from urllib.parse import urlparse, urljoin
 from flask import request
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import re
 
 
@@ -30,3 +30,13 @@ def get_semester(group_info):
     year = date.year
     season = 'V' if date.month < 7 else 'H'
     return '{}{}'.format(season, year)
+
+def get_lecturedates(start_date, end_date, weekday_list):
+    print(start_date)
+    dates = [start_date + timedelta(days=x) for x in range((end_date-start_date).days+1)]
+    lecture_dates = []
+    for date in dates:
+        print(date.weekday())
+        if(date.weekday() in weekday_list):
+            lecture_dates.append(date)
+    return lecture_dates
