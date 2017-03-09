@@ -28,9 +28,7 @@
                 {% set i = [0] %}
             {% for date in dates %}
                 <tr>
-                    {# set weekday = date.strftime("%A") #}
-                    {% set weekday = date[0] %}
-                    {% if weekday|lower in lectureDays %}
+                    {% set weekday = date.strftime("%A") %}
                         {% set id = i[0] %}
                         {% set lecture_id = course.code_name + "_lecture_" + id|string %}
                         <td>

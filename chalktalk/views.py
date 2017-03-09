@@ -5,6 +5,7 @@ import flask_login
 from chalktalk.oauth import DataportenSignin
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 import re
+from chalktalk.models import User, Course
 
 database_url = 'sqlite:///dummy.db'
 db = chalktalk.database.DatabaseManager(database_url)
@@ -20,7 +21,7 @@ Breadcrumbs(app=app)
 @login_manager.user_loader
 def user_loader(user_id):
     # get will return None if not found (this is what flask_login expects)
-    user = db.session.query(chalktalk.models.User).get(user_id)
+    user = db.session.query(User).get(user_id)
     return user
 
 
@@ -37,9 +38,26 @@ def index():
     if flask_login.current_user.is_authenticated:
         # return redirect(url_for('courselist'))
         # @@@ Temporary for testing
-        return redirect(url_for('lecturelist', course_id=1))
+        return redirect(url_for('courselist'))
     else:
         return render_template('index.html')
+
+
+# For testing
+@app.route('/login')
+def login():
+    role = request.args.get('role', '')
+    user = None
+    if role == 'student':
+        user = db.session.query(User).\
+                filter_by(uuid='ec56354e-767b-4dbd-a129-0fda4359f45c').first()
+    elif role == 'lecturer':
+        user = db.session.query(User).\
+                filter_by(uuid='7b96eab9-b69e-4b8c-9636-1da868207864').first()
+
+    if user:
+        flask_login.login_user(user)
+    return redirect(url_for('index'))
 
 
 @app.route('/__oauth/authorize')
@@ -65,7 +83,7 @@ def oauth_callback():
         flash('Could not fetch groups from feide', 'error')
         return redirect(url_for('index'))
 
-    user = db.session.query(chalktalk.models.User).filter_by(uuid=userinfo['userid']).first()
+    user = db.session.query(User).filter_by(uuid=userinfo['userid']).first()
 
     # Add a new user if not already registered
     if user is None:
@@ -89,7 +107,7 @@ def oauth_callback():
         if match:
             role = group['membership']['fsroles']
             code_name = match.group(1)
-            course = db.session.query(chalktalk.models.Course).filter_by(code_name=code_name).first()
+            course = db.session.query(Course).filter_by(code_name=code_name).first()
             # If the course exists in the db already, add
             # the user to courses he either takes or lectures
             if course:
@@ -128,7 +146,7 @@ def logout():
 @app.route('/courselist/')
 @register_breadcrumb(app, '.', 'Course list', 0)
 def courselist():
-    courses = db.session.query(chalktalk.database.Course).all()
+    courses = flask_login.current_user.courses
     return render_template('courselist.html', courses=courses)
 
 
@@ -217,8 +235,17 @@ def lecturefeedback(lecture_id):
 def lecturertest():
     return render_template('lecturertest.html')
 
+
 @app.route('/addcourse')
 @register_breadcrumb(app, '.addcourse', 'Add Course')
 def addcourse():
-    return render_template('addCourse.html')
+    curr_user = flask_login.current_user
+    # Bad way to check if the user is lecturer.
+    # (Maybe use a decorator or something like that instead)
+    if not hasattr(curr_user, 'lectures'):
+        return redirect(url_for('index'))
 
+    # Select all courses with no lectures added
+    courses = [c for c in curr_user.courses if len(c.lectures) == 0]
+
+    return render_template('addcourse.html', courses=courses)
