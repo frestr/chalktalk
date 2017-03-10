@@ -14,18 +14,15 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.2.4.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-      <link rel="stylesheet" href="/resources/demos/style.css">
-      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      <script>
-      $( function() {
-        $( "#datepickerFrom" ).datepicker();
-        $( "#datepickerTo" ).datepicker();
-        $( "#datepickerFrom" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
-        $( "#datepickerTo" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
-      } );
-      </script>
+
+    <script>
+    $( function() {
+      $( "#datepickerFrom" ).datepicker();
+      $( "#datepickerTo" ).datepicker();
+      $( "#datepickerFrom" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
+      $( "#datepickerTo" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
+    } );
+    </script>
 
     <style>
         body{
@@ -54,12 +51,15 @@
 
         }
 
+        .breadcrumb {
+            margin-top: 10px;
+        }
+
         ul.breadcrumb {
             list-style: none;
             background-color: #eee;
             font-size: 12px;
         }
-
 
         ul.breadcrumb li {
             display: inline;
@@ -104,16 +104,12 @@
               {% endif %}
             {% endwith %}
 
-
-
-          <div>
-            {%- for breadcrumb in breadcrumbs -%}
-                <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
-                {{ '/' if not loop.last }}
-            {%- endfor -%}
-          </div>
-
-
+<!--           <div> -->
+<!--             {%- for breadcrumb in breadcrumbs -%} -->
+<!--                 <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a> -->
+<!--                 {{ '/' if not loop.last }} -->
+<!--             {%- endfor -%} -->
+<!--           </div> -->
 
             {% block body %}{% endblock %}
 
