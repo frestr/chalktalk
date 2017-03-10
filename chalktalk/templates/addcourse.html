@@ -36,8 +36,8 @@
         }
 
         input[type="checkbox"]{
-            width: 2em;
-            height: 13px;
+            width: 1.5em;
+            height: 1.5em;
             padding: 0;
             margin: 0;
             vertical-align: bottom;
@@ -45,6 +45,13 @@
             top: -1px;
             *overflow: hidden;
         }
+
+    #checkbox_label{
+        display: block;
+        padding-top: 2em;
+        padding-left: 15px;
+        text-indent: -15px;
+    }
 
     </style>
 
@@ -80,8 +87,11 @@
                 {% for day in days %}
                 <tr>
                     <td>
-                        <input type="checkbox" class="form-control" name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
-                        <label for="{{ day|lower }}"><h3>{{ day }}</h3></label>
+
+                        <label id="checkbox_label"for="{{ day|lower }}">
+                            <input type="checkbox"  name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
+                            {{ day }}
+                        </label>
                     </td>
                     <td>
                         <label for="{{ day|lower }}_hours_from"></label>
