@@ -36,8 +36,8 @@
         }
 
         input[type="checkbox"]{
-            width: 2em;
-            height: 13px;
+            width: 1.5em;
+            height: 1.5em;
             padding: 0;
             margin: 0;
             vertical-align: bottom;
@@ -45,6 +45,13 @@
             top: -1px;
             *overflow: hidden;
         }
+
+    #checkbox_label{
+        display: block;
+        padding-top: 2em;
+        padding-left: 15px;
+        text-indent: -15px;
+    }
 
     </style>
 
@@ -56,8 +63,8 @@
     </ul>
     <!-- End breadcrumbs -->
 
-    <label id="course_label" for="course_id">Course:</label>
-     <select name="course_id" id="course_id" form="course_form">
+    <label id="course_label" for="course_code">Course:</label>
+     <select name="course_code" id="course_code" form="course_form">
         {% for course in courses %}
         <option value="{{ course.code_name }}">{{ course.code_name }} {{ course.full_name }}</option>
         {% endfor %}
@@ -80,18 +87,23 @@
                 {% for day in days %}
                 <tr>
                     <td>
-                        <input type="checkbox" class="form-control" name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
-                        <label for="{{ day|lower }}"><h3>{{ day }}</h3></label>
+
+                        <label id="checkbox_label"for="{{ day|lower }}">
+                            <input type="checkbox"  name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
+                            {{ day }}
+                        </label>
                     </td>
                     <td>
                         <label for="{{ day|lower }}_hours_from"></label>
                         <h4>From</h4>
                         <div class="time_table">
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from">
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from"
+                                       name="{{ day|lower }}_hours_from" placeholder="HH">
                             </div>
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from"
+                                       name="{{ day|lower }}_minutes_from" placeholder="MM">
                             </div>
                         </div>
                     </td>
@@ -100,10 +112,12 @@
                         <h4 >To</h4>
                         <div class="time_table">
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" >
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to"
+                                       name="{{ day|lower }}_hours_to" placeholder="HH">
                             </div>
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to"
+                                       name="{{ day|lower }}_minutes_to" placeholder="MM">
                             </div>
                         </div>
                     </td>
