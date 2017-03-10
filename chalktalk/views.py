@@ -173,12 +173,31 @@ def lecturelist(course_id):
     return render_template('lecturelist.html', course=course)
 
 
-@app.route('/createlecturelist/<int:course_id>', methods=['POST', 'GET'])
+@app.route('/createlecturelist/<int:course_id>', methods=['POST'])
 @register_breadcrumb(app, '.createcourse', 'Create Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 def createlecturelist(course_id):
-    dates = util.get_lecturedates(date(2017,1,1), date(2017, 3,1), ["monday", "tuesday", "friday"])
-    course = db.session.query(chalktalk.database.Course).get(course_id)
-    return render_template('createlecturelist.html', course=course, dates=dates)
+    course = db.session.query(Course).get(course_id)
+    if course:
+        tags_list = []
+        for entry in request.form:
+            match = re.fullmatch('([0-9]+)_tags', entry)
+            if match:
+                lecture_date= request.form['{}_date'.format(match.group(1))]
+                lecture_date = datetime.strptime(lecture_date, '%Y-%m-%d %H:%M:%S')
+                tags_list.append((match.group(0), lecture_date, request.form[entry]))
+
+        for tags in sorted(tags_list, key=lambda x: x[0]):
+            lecture_date = tags[1]
+            lecture = db.add_lecture(course, lecture_date, 'X9999', [flask_login.current_user])
+            # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
+            for tag in tags[2].split(','):
+                db.add_subject(lecture, tag.strip())
+
+        db.save_changes()
+
+    else:
+        abort(400)
+    return redirect(url_for('index'))
 
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
@@ -238,7 +257,7 @@ def lecturertest():
     return render_template('lecturertest.html')
 
 
-@app.route('/addcourse')
+@app.route('/addcourse', methods=['GET', 'POST'])
 @register_breadcrumb(app, '.addcourse', 'Add Course')
 def addcourse():
     curr_user = flask_login.current_user
@@ -246,6 +265,34 @@ def addcourse():
     # (Maybe use a decorator or something like that instead)
     if not hasattr(curr_user, 'lectures'):
         return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        course_code = request.form['course_id']
+        course = db.session.query(Course).filter_by(code_name=course_code).first()
+        if not course:
+            abort(400)
+
+        from_date_str = request.form['from_date']
+        to_date_str = request.form['to_date']
+
+        try:
+            from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
+            to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
+        except ValueError:
+            abort(400)
+
+        days = []
+        for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']:
+            if day in request.form and request.form[day] == 'on':
+                days.append(day)
+                # from_hours = request.form['{}_hours_from'.format(day)]
+                # from_minutes = request.form['{}_minutes_from'.format(day)]
+                # to_hours = request.form['{}_hours_to'.format(day)]
+                # to_minutes = request.form['{}_minutes_to'.format(day)]
+
+        dates = util.get_lecturedates(from_date, to_date, days)
+        print('calling')
+        return render_template('createlecturelist.html', course=course, dates=dates)
 
     # Select all courses with no lectures added
     courses = [c for c in curr_user.courses if len(c.lectures) == 0]
