@@ -63,8 +63,8 @@
     </ul>
     <!-- End breadcrumbs -->
 
-    <label id="course_label" for="course_id">Course:</label>
-     <select name="course_id" id="course_id" form="course_form">
+    <label id="course_label" for="course_code">Course:</label>
+     <select name="course_code" id="course_code" form="course_form">
         {% for course in courses %}
         <option value="{{ course.code_name }}">{{ course.code_name }} {{ course.full_name }}</option>
         {% endfor %}
@@ -98,10 +98,12 @@
                         <h4>From</h4>
                         <div class="time_table">
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from">
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from"
+                                       name="{{ day|lower }}_hours_from" placeholder="HH">
                             </div>
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from"
+                                       name="{{ day|lower }}_minutes_from" placeholder="MM">
                             </div>
                         </div>
                     </td>
@@ -110,10 +112,12 @@
                         <h4 >To</h4>
                         <div class="time_table">
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" >
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to"
+                                       name="{{ day|lower }}_hours_to" placeholder="HH">
                             </div>
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to"
+                                       name="{{ day|lower }}_minutes_to" placeholder="MM">
                             </div>
                         </div>
                     </td>
