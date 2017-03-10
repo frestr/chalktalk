@@ -17,7 +17,6 @@
     </div>
 
     <form action="{{ url_for('createlecturelist', course_id = course.id) }}" method=POST>
-        <input type="hidden" value="{{ course.code_name }}" name="course_code">
         <table class="table">
             <thead>
                 <tr>
@@ -43,6 +42,8 @@
                         </td>
                         <td>
                             {{ date.strftime('%A - %Y-%m-%d - %H:%M:%S') }}
+                            <input type="hidden" value="{{ date.strftime('%Y-%m-%d %H:%M:%S') }}"
+                                   name="{{ id }}_date">
                         </td>
                         <td>
                             <input class="form-control" type="text" name="{{ lecture_id }}_tags"
