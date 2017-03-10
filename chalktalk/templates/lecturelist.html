@@ -1,7 +1,6 @@
-<!DOCTYPE html>
 {% extends "master.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Lecture List{% endblock %}
 
 {% block body %}
 
@@ -27,6 +26,15 @@
         }
 
     </style>
+
+
+
+<!-- Breacrumbs -->
+<ul class="breadcrumb">
+    <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+    <li><a href="{{ url_for('lecturelist', course_id=course.id)}}">Lecture List</a></li>
+</ul>
+<!-- End breadcrumbs -->
 
 <div class="container text-center title-box">
     <H1>Lecture list</H1>

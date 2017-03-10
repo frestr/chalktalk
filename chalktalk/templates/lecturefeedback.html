@@ -24,6 +24,15 @@
 
         </style>
 
+        <!-- Breacrumbs -->
+        <ul class="breadcrumb">
+            <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+            <li><a href="{{ url_for('lecturelist', course_id=lecture.course_id)}}">Lecture List</a></li>
+            <li><a href="{{ url_for('lecturefeedback', lecture_id=lecture.id)}}">Lecture Feedback</a></li>
+        </ul>
+        <!-- End breadcrumbs -->
+
+
         <ul id="tabs" class="center-block nav nav-tabs" data-tabs="tabs">
             {% for subject in subjects %}
                 <li class="dropdown">

@@ -4,6 +4,14 @@
 
 {% block body %}
 
+    <!-- Breacrumbs -->
+    <ul class="breadcrumbs">
+        <li><a href="{{ url_for('courselist') }}"></a></li>
+        <li><a href="{{ url_for('lecturelist') }}"></a></li>
+        <li><a href="{{ url_for('createlecturelist') }}"></a></li>
+    </ul>
+    <!-- End breadcrumbs -->
+
     <div class="text-center">
         <h3>Edit lectures and tags for {{ course.code_name }}</h3>
     </div>

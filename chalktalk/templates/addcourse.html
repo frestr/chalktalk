@@ -27,17 +27,15 @@
         clear: both;
         }
 
-    .breadcrumb li {
-    display: inline;
-    }
-
-    .breadcrumb li+li:before {
-        content:"» ";
-    }
-
-
-
     </style>
+
+
+    <!-- Breacrumbs -->
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+        <li><a href="{{ url_for('addcourse') }}">Add Course</a></li>
+    </ul>
+    <!-- End breadcrumbs -->
 
     <label id="course_label" for="course_id">Course:</label>
      <select name="course_id" id="course_id" form="courseForm">
