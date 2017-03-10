@@ -17,15 +17,25 @@
         }
 
         .container {
-        width: 800px;
-        clear: both;
-        padding-top: 10px;
+            width: 1000px;
+            clear: both;
+            padding-top: 10px;
         }
 
         .container input {
         width: 100%;
         clear: both;
         }
+
+        .time_table{
+            display: table;
+        }
+
+        .day_cell{
+            display: table;
+        }
+
+
 
     </style>
 
@@ -38,13 +48,13 @@
     <!-- End breadcrumbs -->
 
     <label id="course_label" for="course_id">Course:</label>
-     <select name="course_id" id="course_id" form="courseForm">
+     <select name="course_id" id="course_id" form="course_form">
         {% for course in courses %}
         <option value="{{ course.code_name }}">{{ course.code_name }} {{ course.full_name }}</option>
         {% endfor %}
     </select>
 
-    <form action="{{ url_for('addcourse')}}" id="courseForm" method="POST">
+    <form action="{{ url_for('addcourse')}}" id="course_form" method="POST">
         {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
 
         <div class="container">
@@ -62,22 +72,32 @@
                 {% for day in days %}
                 <tr>
                     <td>
+                        <input type="checkbox" class="form-control" name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
                         <label for="{{ day|lower }}"><h3>{{ day }}</h3></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" class="form-control" name="{{ day|lower }}" id="{{ day|lower }}">
                     </td>
                     <td>
                         <label for="{{ day|lower }}_hours_from"></label>
                         <h4>From</h4>
-                        <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from">
-                        <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from">
+                        <div class="time_table">
+                            <div class="time_cell">
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from">
+                            </div>
+                            <div class="time_cell">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from">
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <label for="{{ day|lower }}_minutes_to" ></label>
                         <h4 >To</h4>
-                        <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" >
-                        <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to" style="float: right;">
+                        <div class="time_table">
+                            <div class="time_cell">
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" >
+                            </div>
+                            <div class="time_cell">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to">
+                            </div>
+                        </div>
                     </td>
                 </tr>
                {% endfor %}
