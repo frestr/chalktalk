@@ -44,7 +44,7 @@
         {% endfor %}
     </select>
 
-    <form action="{{ url_for('addcourse', course_id=course_id) }}" id="courseForm" method="POST">
+    <form action="{{ url_for('addcourse')}}" id="courseForm" method="POST">
         {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
 
         <div class="container">
@@ -68,14 +68,16 @@
                         <input type="checkbox" class="form-control" name="{{ day|lower }}" id="{{ day|lower }}">
                     </td>
                     <td>
-                        <label for="{{ day|lower }}_time_stamp_from"></label>
+                        <label for="{{ day|lower }}_hours_from"></label>
                         <h4>From</h4>
-                        <input type="time" class="form-control" id="{{ day|lower }}_time_stamp_from" name="{{ day|lower }}_time_stamp_from">
+                        <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from">
+                        <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from">
                     </td>
                     <td>
-                        <label for="{{ day|lower }}_time_stamp_to" ></label>
+                        <label for="{{ day|lower }}_minutes_to" ></label>
                         <h4 >To</h4>
-                        <input type="time" class="form-control" id="{{ day|lower }}_time_stamp_to" name="{{ day|lower }}_time_stamp_to" >
+                        <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" >
+                        <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to" style="float: right;">
                     </td>
                 </tr>
                {% endfor %}
