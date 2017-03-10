@@ -17,6 +17,7 @@
     </div>
 
     <form action="{{ url_for('createlecturelist', course_id = course.id) }}" method=POST>
+        <input type="hidden" value="{{ course.code_name }}" name="course_code">
         <table class="table">
             <thead>
                 <tr>
@@ -32,11 +33,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% set i = [0] %}
+                {% set i = [1] %}
             {% for date in dates %}
                 <tr>
                         {% set id = i[0] %}
-                        {% set lecture_id = course.code_name + "_" + id|string %}
+                        {% set lecture_id = id|string %}
                         <td>
                             <b>Lecture #{{ id }}</b>
                         </td>
@@ -45,7 +46,7 @@
                         </td>
                         <td>
                             <input class="form-control" type="text" name="{{ lecture_id }}_tags"
-                                   id="{{ lecture_id }}_tags" value="#example one #example two">
+                                   id="{{ lecture_id }}_tags" value="example one, example two">
                         </td>
                         {% if i.append(i.pop() + 1) %}{% endif %}
                 </tr>
