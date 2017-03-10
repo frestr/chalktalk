@@ -5,10 +5,10 @@
 {% block body %}
 
     <!-- Breacrumbs -->
-    <ul class="breadcrumbs">
-        <li><a href="{{ url_for('courselist') }}"></a></li>
-        <li><a href="{{ url_for('lecturelist') }}"></a></li>
-        <li><a href="{{ url_for('createlecturelist') }}"></a></li>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('courselist') }}"></a>Course List</li>
+        <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
+        <li><a href="{{ url_for('createlecturelist', course_id=course.id) }}"></a>Create Lecture List</li>
     </ul>
     <!-- End breadcrumbs -->
 
