@@ -5,17 +5,16 @@
 {% block body %}
 
     <!-- Breacrumbs -->
-    <ul class="breadcrumbs">
-        <li><a href="{{ url_for('courselist') }}"></a></li>
-        <li><a href="{{ url_for('lecturelist') }}"></a></li>
-        <li><a href="{{ url_for('createlecturelist') }}"></a></li>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('courselist') }}"></a>Course List</li>
+        <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
+        <li><a href="{{ url_for('createlecturelist', course_id=course.id) }}"></a>Create Lecture List</li>
     </ul>
     <!-- End breadcrumbs -->
 
     <div class="text-center">
         <h3>Edit lectures and tags for {{ course.code_name }}</h3>
     </div>
-
 
     <form action="{{ url_for('createlecturelist', course_id = course.id) }}" method=POST>
         <table class="table">
@@ -36,21 +35,19 @@
                 {% set i = [0] %}
             {% for date in dates %}
                 <tr>
-                    {% set weekday = date.strftime("%A") %}
                         {% set id = i[0] %}
-                        {% set lecture_id = course.code_name + "_lecture_" + id|string %}
+                        {% set lecture_id = course.code_name + "_" + id|string %}
                         <td>
                             <b>Lecture #{{ id }}</b>
                         </td>
                         <td>
-                            {{ weekday + " " + date[1] }}
+                            {{ date.strftime('%A - %Y-%m-%d - %H:%M:%S') }}
                         </td>
                         <td>
                             <input class="form-control" type="text" name="{{ lecture_id }}_tags"
                                    id="{{ lecture_id }}_tags" value="#example one #example two">
                         </td>
                         {% if i.append(i.pop() + 1) %}{% endif %}
-                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

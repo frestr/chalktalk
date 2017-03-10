@@ -6,6 +6,7 @@ from chalktalk.oauth import DataportenSignin
 from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 import re
 from chalktalk.models import User, Course
+from datetime import datetime, date
 
 database_url = 'sqlite:///dummy.db'
 db = chalktalk.database.DatabaseManager(database_url)
@@ -175,8 +176,9 @@ def lecturelist(course_id):
 @app.route('/createlecturelist/<int:course_id>', methods=['POST', 'GET'])
 @register_breadcrumb(app, '.createcourse', 'Create Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 def createlecturelist(course_id):
+    dates = util.get_lecturedates(date(2017,1,1), date(2017, 3,1), ["monday", "tuesday", "friday"])
     course = db.session.query(chalktalk.database.Course).get(course_id)
-    return render_template('createlecturelist.html', course=course)
+    return render_template('createlecturelist.html', course=course, dates=dates)
 
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
