@@ -3,6 +3,7 @@ from flask import render_template, request, redirect, abort, url_for, flash
 import chalktalk.database
 import flask_login
 from chalktalk.oauth import DataportenSignin
+from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 import re
 from chalktalk.models import User, Course
 from datetime import datetime, date
@@ -14,6 +15,8 @@ app.secret_key = 'development key'
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+
+Breadcrumbs(app=app)
 
 
 @login_manager.user_loader
@@ -36,7 +39,7 @@ def index():
     if flask_login.current_user.is_authenticated:
         # return redirect(url_for('courselist'))
         # @@@ Temporary for testing
-        return redirect(url_for('lecturelist', course_id=1))
+        return redirect(url_for('courselist'))
     else:
         return render_template('index.html')
 
@@ -142,12 +145,28 @@ def logout():
 
 
 @app.route('/courselist/')
+@register_breadcrumb(app, '.', 'Course list', 0)
 def courselist():
-    courses = db.session.query(chalktalk.database.Course).all()
+    courses = flask_login.current_user.courses
     return render_template('courselist.html', courses=courses)
 
 
+def course_list_id(*args, **kwargs):
+    """Helper method for breadcrumbs. Gets the course id"""
+    course_id = request.view_args['course_id']
+    course = db.session.query(chalktalk.database.Course).get(course_id)
+    return {'course_id': course.id}
+
+
+def lecture_list_id(*args, **kwargs):
+    """Helper method for breadcrumbs. Gets the lecture id"""
+    lecture_id = request.view_args['lecture_id']
+    lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
+    return {'lecture_id': lecture.id}
+
+
 @app.route('/lecturelist/<int:course_id>')
+@register_breadcrumb(app, '.lecture', 'Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 @flask_login.login_required
 def lecturelist(course_id):
     course = db.session.query(chalktalk.database.Course).get(course_id)
@@ -155,6 +174,7 @@ def lecturelist(course_id):
 
 
 @app.route('/createlecturelist/<int:course_id>', methods=['POST', 'GET'])
+@register_breadcrumb(app, '.createcourse', 'Create Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 def createlecturelist(course_id):
     dates = util.get_lecturedates(date(2017,1,1), date(2017, 3,1), ["monday", "tuesday", "friday"])
     course = db.session.query(chalktalk.database.Course).get(course_id)
@@ -162,6 +182,7 @@ def createlecturelist(course_id):
 
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
+@register_breadcrumb(app, '.feedbackform', 'Feedback Form', 2, endpoint_arguments_constructor=lecture_list_id)
 def feedbackform(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
@@ -203,12 +224,13 @@ def feedbackform(lecture_id):
 
 
 @app.route('/lecturefeedback/<int:lecture_id>')
+@register_breadcrumb(app, '.feedback', 'Lecture Feedback', 3, endpoint_arguments_constructor=lecture_list_id)
 def lecturefeedback(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
         abort(404)
     subjects = db.get_subject_values(lecture)
-    return render_template('lecturefeedback.html', subjects=subjects)
+    return render_template('lecturefeedback.html', subjects=subjects, lecture=lecture)
 
 
 @app.route('/lecturertest')
@@ -217,6 +239,7 @@ def lecturertest():
 
 
 @app.route('/addcourse')
+@register_breadcrumb(app, '.addcourse', 'Add Course')
 def addcourse():
     curr_user = flask_login.current_user
     # Bad way to check if the user is lecturer.

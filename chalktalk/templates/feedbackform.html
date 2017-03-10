@@ -4,6 +4,14 @@
 
 {% block body %}
 
+<!-- Breacrumbs -->
+<ul class="breadcrumb">
+    <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+    <li><a href="{{ url_for('lecturelist', course_id=lecture.course_id)}}">Lecture List</a></li>
+    <li><a href="{{ url_for('feedbackform', lecture_id=lecture_id)}}">Feedback Form</a></li>
+</ul>
+<!-- End breadcrumbs -->
+
 <h2>Feedback for lecture in {{ lecture.course.code_name }}, {{ lecture.date.date() }}</h2>
 <form action="{{ url_for('feedbackform', lecture_id=lecture_id) }}" method=POST>
     <table class="table">

@@ -27,9 +27,15 @@
         clear: both;
         }
 
-
-
     </style>
+
+
+    <!-- Breacrumbs -->
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+        <li><a href="{{ url_for('addcourse') }}">Add Course</a></li>
+    </ul>
+    <!-- End breadcrumbs -->
 
     <label id="course_label" for="course_id">Course:</label>
      <select name="course_id" id="course_id" form="courseForm">
@@ -43,11 +49,11 @@
 
         <div class="container">
             <label for="fromDate">Lectures start date:</label>
-            <p>Date: <input type="text" id="datepicker" size="30" placeholder="yyyy-mm-dd" name="fromDate" id="fromDate"></p>
+            <p>Date: <input type="text" id="datepickerFrom" size="30" placeholder="yyyy-mm-dd" name="fromDate" id="fromDate"></p>
 
 
             <label for="toDate">Lectures end date:</label>
-            <p>Date: <input type="text" id="datepicker" size="30" placeholder="yyyy-mm-dd" name="toDate" id="toDate"></p>
+            <p>Date: <input type="text" id="datepickerTo" size="30" placeholder="yyyy-mm-dd" name="toDate" id="toDate"></p>
 
         </div>
 
@@ -64,12 +70,12 @@
                     <td>
                         <label for="{{ day|lower }}_time_stamp_from"></label>
                         <h4>From</h4>
-                        <input type="time" class="form-control" id="{{ day|lower }}_time_stamp_from">
+                        <input type="time" class="form-control" id="{{ day|lower }}_time_stamp_from" name="{{ day|lower }}_time_stamp_from">
                     </td>
                     <td>
                         <label for="{{ day|lower }}_time_stamp_to" ></label>
                         <h4 >To</h4>
-                        <input type="time" class="form-control" id="{{ day|lower }}_time_stamp_to" >
+                        <input type="time" class="form-control" id="{{ day|lower }}_time_stamp_to" name="{{ day|lower }}_time_stamp_to" >
                     </td>
                 </tr>
                {% endfor %}

@@ -20,9 +20,10 @@
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       <script>
       $( function() {
-        $( "#datepicker" ).datepicker();
-        $( "#datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
-
+        $( "#datepickerFrom" ).datepicker();
+        $( "#datepickerTo" ).datepicker();
+        $( "#datepickerFrom" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
+        $( "#datepickerTo" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
       } );
       </script>
 
@@ -52,6 +53,36 @@
             color: #262626 !important;
 
         }
+
+        ul.breadcrumb {
+            list-style: none;
+            background-color: #eee;
+            font-size: 12px;
+        }
+
+
+        ul.breadcrumb li {
+            display: inline;
+        }
+
+        /* Add a slash symbol (/) before/behind each list item */
+        ul.breadcrumb li+li:before {
+            padding: 8px;
+            color: black;
+            content: ">\00a0";
+        }
+
+        /* Add a color to all links inside the list */
+        ul.breadcrumb li a {
+            color: #0275d8;
+            text-decoration: none;
+        }
+
+        /* Add a color on mouse-over */
+        ul.breadcrumb li a:hover {
+            color: #01447e;
+            text-decoration: underline;
+        }
     </style>
 
 
@@ -72,6 +103,17 @@
                 {% endfor %}
               {% endif %}
             {% endwith %}
+
+
+
+          <div>
+            {%- for breadcrumb in breadcrumbs -%}
+                <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a>
+                {{ '/' if not loop.last }}
+            {%- endfor -%}
+          </div>
+
+
 
             {% block body %}{% endblock %}
 
