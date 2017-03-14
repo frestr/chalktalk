@@ -270,7 +270,7 @@ def addcourse():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        course_code = request.form['course_id']
+        course_code = request.form['course_code']
         course = db.session.query(Course).filter_by(code_name=course_code).first()
         if not course:
             print('Course does not exist: {}'.format(course_code))
@@ -296,7 +296,6 @@ def addcourse():
                 # to_minutes = request.form['{}_minutes_to'.format(day)]
 
         dates = util.get_lecturedates(from_date, to_date, days)
-        print('calling')
         return render_template('createlecturelist.html', course=course, dates=dates)
 
     # Select all courses with no lectures added
