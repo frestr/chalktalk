@@ -39,8 +39,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ subject['name'] }}
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a data-toggle="tab" href="#messages_{{ subject['name']|lower }}">Messages</a></li>
-                        <li><a data-toggle="tab" href="#graphs_{{ subject['name']|lower }}">Graphs</a></li>
+                        <li><a data-toggle="tab" href="#messages_{{ subject['name']|lower|replace(" ", "_") }}">Messages</a></li>
+                        <li><a data-toggle="tab" href="#graphs_{{ subject['name']|lower|replace(" ", "_") }}">Graphs</a></li>
                     </ul>
                 </li>
             {% endfor %}
@@ -48,23 +48,16 @@
 
         <div id="tab_content" class="tab-content">
             {% for subject in subjects %}
-                <div id="graphs_{{ subject['name']|lower }}" class="tab-pane">
+                <div id="graphs_{{ subject['name']|lower|replace(" ", "_") }}" class="tab-pane">
 
-                    <canvas id="{{ subject['name']|lower }}_myChart"></canvas>
+                    <canvas id="{{ subject['name']|lower|replace(" ", "_") }}_myChart"></canvas>
 
                     <script>
-
-                        if("{{ subject['name']}}" == "Utvikling"){
-                            console.log("Utvikling");
-                        }
-                        else{
-                            console.log("Programvare");
-                        }
 
                         var rating = {{subject['ratings']}};
 
 
-                        var ctx = document.getElementById('{{ subject['name']|lower }}_myChart').getContext('2d');
+                        var ctx = document.getElementById('{{ subject['name']|lower|replace(" ", "_") }}_myChart').getContext('2d');
                         var myChart = new Chart(ctx, {
                             scaleFontColor: "white",
                             type: 'bar',
@@ -112,7 +105,7 @@
 
                 </div>
 
-                <div id="messages_{{ subject['name']|lower }}" class="tab-pane">
+                <div id="messages_{{ subject['name']|lower|replace(" ", "_") }}" class="tab-pane">
                     <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
