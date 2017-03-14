@@ -196,7 +196,7 @@ def createlecturelist(course_id):
         db.save_changes()
 
     else:
-        print('Course does not exist: {}'.format(course_id)
+        print('Course does not exist: {}'.format(course_id))
         abort(400)
     return redirect(url_for('index'))
 
