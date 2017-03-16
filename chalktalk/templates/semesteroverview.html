@@ -1,0 +1,91 @@
+{% extends "master.html" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+        <style>
+            body{
+                color: black;
+            }
+            .table{
+                background-color: white;
+            }
+
+            th{
+                color: black;
+            }
+
+            canvas{
+                background-color: white;
+            }
+
+        </style>
+
+        <!-- Breacrumbs -->
+        <ul class="breadcrumb">
+            <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+        </ul>
+        <!-- End breadcrumbs -->
+
+
+        <div id="tab_content" class="tab-content">
+            {% for subject in subjects %}
+                <div id="graphs_{{ subject['name']|lower|replace(" ", "_") }}" class="tab-pane">
+
+                    <canvas id="{{ subject['name']|lower|replace(" ", "_") }}_myChart"></canvas>
+
+                    <script>
+
+                        var rating = {{subject['ratings']}};
+
+
+                        var ctx = document.getElementById('{{ subject['name']|lower|replace(" ", "_") }}_myChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            scaleFontColor: "white",
+                            type: 'bar',
+                            data: {
+                                labels: ['1', '2', '3', '4', '5'],
+                                datasets: [{
+                                    label: 'Rating',
+                                    data: rating,
+                                    backgroundColor: "rgba(5, 23, 142, 0.8)"
+                                }]
+                            },
+                            options: {
+                                legend: {labels:{fontColor:"black", fontSize: 18}},
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            fontColor: "black",
+                                            stepSize: 1,
+                                            beginAtZero:true
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Count',
+                                            fontColor: "black"
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        ticks: {
+                                            fontColor: "black",
+                                            beginAtZero:true
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Rating',
+                                            fontColor: "black"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+
+                    </script>
+                </div>
+            {% endfor %}
+
+{% endblock %}

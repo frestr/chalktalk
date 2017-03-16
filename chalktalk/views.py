@@ -255,9 +255,9 @@ def lecturefeedback(lecture_id):
     return render_template('lecturefeedback.html', subjects=subjects, lecture=lecture)
 
 
-@app.route('/lecturertest')
-def lecturertest():
-    return render_template('lecturertest.html')
+@app.route('/semesteroverview/<int:course_id>')
+def semesteroverview(course_id):
+    return render_template('semesteroverview.html')
 
 
 @app.route('/addcourse', methods=['GET', 'POST'])
