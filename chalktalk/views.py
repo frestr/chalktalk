@@ -196,6 +196,7 @@ def createlecturelist(course_id):
         db.save_changes()
 
     else:
+        print('Course does not exist: {}'.format(course_id))
         abort(400)
     return redirect(url_for('index'))
 
@@ -211,6 +212,7 @@ def feedbackform(lecture_id):
     #####
 
     if lecture is None:
+        print('Lecture does not exist: {}'.format(lecture_id))
         abort(404)
     subjects = db.session.query(chalktalk.database.Subject).filter_by(lecture_id=lecture.id).all()
 
@@ -247,6 +249,7 @@ def feedbackform(lecture_id):
 def lecturefeedback(lecture_id):
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
+        print('Lecture does not exist: {}'.format(lecture_id))
         abort(404)
     subjects = db.get_subject_values(lecture)
     return render_template('lecturefeedback.html', subjects=subjects, lecture=lecture)
@@ -267,9 +270,10 @@ def addcourse():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        course_code = request.form['course_id']
+        course_code = request.form['course_code']
         course = db.session.query(Course).filter_by(code_name=course_code).first()
         if not course:
+            print('Course does not exist: {}'.format(course_code))
             abort(400)
 
         from_date_str = request.form['from_date']
@@ -279,6 +283,7 @@ def addcourse():
             from_date = datetime.strptime(from_date_str, '%Y-%m-%d')
             to_date = datetime.strptime(to_date_str, '%Y-%m-%d')
         except ValueError:
+            print('Invalid date formats: {} or {}'.format(from_date, to_date))
             abort(400)
 
         days = []
@@ -291,7 +296,6 @@ def addcourse():
                 # to_minutes = request.form['{}_minutes_to'.format(day)]
 
         dates = util.get_lecturedates(from_date, to_date, days)
-        print('calling')
         return render_template('createlecturelist.html', course=course, dates=dates)
 
     # Select all courses with no lectures added
