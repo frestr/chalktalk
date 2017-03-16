@@ -32,8 +32,11 @@ def get_semester(group_info):
     return '{}{}'.format(season, year)
 
 def get_lecturedates(start_date, end_date, weekday_list):
+    #create a list of dates from start_date to end_date
     dates = [start_date + timedelta(days=x) for x in range((end_date-start_date).days+1)]
     lecture_dates = []
+    #go through the list of dates, add the dates that match with the
+    #weekdays listed for lectures
     for date in dates:
         if(date.strftime("%A").lower() in weekday_list):
             lecture_dates.append(date)
