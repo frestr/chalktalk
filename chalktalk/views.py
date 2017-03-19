@@ -7,11 +7,11 @@ from flask_breadcrumbs import Breadcrumbs, register_breadcrumb
 import re
 from chalktalk.models import User, Course
 from datetime import datetime, date
+from chalktalk import settings, secret_settings
 
-database_url = 'sqlite:///dummy.db'
-db = chalktalk.database.DatabaseManager(database_url)
+db = chalktalk.database.DatabaseManager(settings.DATABASE_URL)
 
-app.secret_key = 'development key'
+app.secret_key = secret_settings.SECRET_KEY
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
