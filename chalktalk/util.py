@@ -20,23 +20,20 @@ def is_safe_url(target):
 
 
 def get_semester(group_info):
-    date = None
+    semester_date = None
     # Means the course is active (in current semester)
     if 'notAfter' not in group_info['membership']:
-        date = datetime.now()
+        semester_date = datetime.now()
     else:
         end_date = group_info['membership']['notAfter']
-        date = datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%SZ')
-    year = date.year
-    season = 'V' if date.month < 7 else 'H'
+        semester_date = datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%SZ')
+    year = semester_date.year
+    season = 'V' if semester_date.month < 7 else 'H'
     return '{}{}'.format(season, year)
 
 def get_lecturedates(start_date, end_date, weekday_list):
-    #create a list of dates from start_date to end_date
     dates = [start_date + timedelta(days=x) for x in range((end_date-start_date).days+1)]
     lecture_dates = []
-    #go through the list of dates, add the dates that match with the
-    #weekdays listed for lectures
     for date in dates:
         if(date.strftime("%A").lower() in weekday_list):
             lecture_dates.append(date)

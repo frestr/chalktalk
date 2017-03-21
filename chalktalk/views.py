@@ -188,13 +188,13 @@ def createlecturelist(course_id):
         for entry in request.form:
             match = re.fullmatch('([0-9]+)_tags', entry)
             if match:
-                lecture_date= request.form['{}_date'.format(match.group(1))]
+                lecture_date = request.form['{}_date'.format(match.group(1))]
                 lecture_date = datetime.strptime(lecture_date, '%Y-%m-%d %H:%M:%S')
                 tags_list.append((match.group(0), lecture_date, request.form[entry]))
 
         for tags in sorted(tags_list, key=lambda x: x[0]):
             lecture_date = tags[1]
-            lecture = db.add_lecture(course, lecture_date, 'X9999', [flask_login.current_user])
+            lecture = db.add_lecture(course, lecture_date, '1', [flask_login.current_user])
             # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
             for tag in tags[2].split(','):
                 db.add_subject(lecture, tag.strip())
