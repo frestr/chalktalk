@@ -27,6 +27,8 @@
         <!-- Breacrumbs -->
         <ul class="breadcrumb">
             <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+            <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
+            <li><a href="{{ url_for('semesteroverview', course_id=course.id)}}">Semester Overview</a></li>
         </ul>
         <!-- End breadcrumbs -->
 

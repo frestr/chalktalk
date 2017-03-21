@@ -83,7 +83,12 @@
       {% endfor %}
       </tbody>
     </table>
-
+    {% if user == "lecturer" %}
+    <div>
+        <a href="{{url_for('semesteroverview', course_id=course.id)}}" type="button" class="btn btn-lg btn-primary btn-block"><div class="glyphicon glyphicon-stats"></div> Semester overview</a>
+    </div>
+    {% endif %}
 </div>
+
 
 {% endblock %}

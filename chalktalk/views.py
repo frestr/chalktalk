@@ -272,10 +272,11 @@ def lecturefeedback(lecture_id):
 @app.route('/semesteroverview/<int:course_id>')
 @flask_login.login_required
 def semesteroverview(course_id):
+    course = db.session.query(chalktalk.database.Course).get(course_id)
     if flask_login.current_user.type != 'lecturer':
         abort(403)
 
-    return render_template('semesteroverview.html')
+    return render_template('semesteroverview.html', course=course)
 
 @app.route('/addcourse', methods=['GET', 'POST'])
 @register_breadcrumb(app, '.addcourse', 'Add Course')
