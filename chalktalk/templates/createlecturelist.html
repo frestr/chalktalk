@@ -1,12 +1,12 @@
 {% extends "master.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}Add Course{% endblock %}
 
 {% block body %}
 
     <!-- Breacrumbs -->
     <ul class="breadcrumb">
-        <li><a href="{{ url_for('courselist') }}"></a>Course List</li>
+        <li><a href="{{ url_for('courselist') }}">Course List</a></li>
         <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
         <li><a href="{{ url_for('createlecturelist', course_id=course.id) }}"></a>Create Lecture List</li>
     </ul>
