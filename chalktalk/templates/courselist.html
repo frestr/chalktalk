@@ -50,10 +50,12 @@
             </tbody>
         </table>
 
+<!-- Disables this button for lecturer -->
+{% if user == "lecturer" %}
 <div>
     <a href="{{url_for('addcourse')}}" class="btn btn-lg  btn-primary btn-block" type="submit"> Add course </a>
-
 </div>
+{% endif %}
 
 <a href="{{ url_for('logout') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log out</a>
 

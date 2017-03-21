@@ -147,8 +147,9 @@ def logout():
 @app.route('/courselist/')
 @register_breadcrumb(app, '.', 'Course list', 0)
 def courselist():
+    curr_user = flask_login.current_user.type
     courses = flask_login.current_user.courses
-    return render_template('courselist.html', courses=courses)
+    return render_template('courselist.html', courses=courses, user=curr_user)
 
 
 def course_list_id(*args, **kwargs):
@@ -169,8 +170,9 @@ def lecture_list_id(*args, **kwargs):
 @register_breadcrumb(app, '.lecture', 'Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 @flask_login.login_required
 def lecturelist(course_id):
+    curr_user = flask_login.current_user.type
     course = db.session.query(chalktalk.database.Course).get(course_id)
-    return render_template('lecturelist.html', course=course)
+    return render_template('lecturelist.html', course=course, user=curr_user)
 
 
 @app.route('/createlecturelist/<int:course_id>', methods=['POST'])

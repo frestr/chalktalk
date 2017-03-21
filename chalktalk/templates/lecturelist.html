@@ -58,24 +58,27 @@
       </thead>
       <tbody>
       {% for lecture in course.lectures %}
+          {% if user == "lecturer" %}
         <tr class="clickable-row" data-href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">
+          {% else %}
+              <tr>
+          {% endif %}
           <td data-title="Date">
-              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.date.strftime("%Y-%m-%d %H:%M") }}</a>
+              {{ lecture.date.strftime("%Y-%m-%d %H:%M") }}
           </td>
           <td data-title="Parallel">
-              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.parallel }}</a>
+              {{ lecture.parallel }}
           </td>
           <td data-title="Subjects">
-              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">
-              {% for subject in lecture.subjects %}
-                  {{ subject.keyword }},
+              | {% for subject in lecture.subjects %}
+                  {{ subject.keyword }} |
               {% endfor %}
-              </a>
           </td>
+            {% if user == "student" %}
             <td>
                 <a href="{{ url_for('feedbackform', lecture_id=lecture.id) }}"><button type="button" class="btn btn-primary glyphicon glyphicon-edit"></button></a>
-
             </td>
+            {% endif %}
         </tr>
       {% endfor %}
       </tbody>
