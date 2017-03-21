@@ -41,7 +41,7 @@ def index():
         # @@@ Temporary for testing
         return redirect(url_for('courselist'))
     else:
-        return render_template('index.html')
+        return render_template('index.html', debugging=app.debug)
 
 
 # For testing
