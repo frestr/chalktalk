@@ -177,7 +177,11 @@ def lecturelist(course_id):
 
 @app.route('/createlecturelist/<int:course_id>', methods=['POST'])
 @register_breadcrumb(app, '.createcourse', 'Create Lecture List', 1, endpoint_arguments_constructor=course_list_id)
+@flask_login.login_required
 def createlecturelist(course_id):
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
     course = db.session.query(Course).get(course_id)
     if course:
         tags_list = []
@@ -205,12 +209,16 @@ def createlecturelist(course_id):
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
 @register_breadcrumb(app, '.feedbackform', 'Feedback Form', 2, endpoint_arguments_constructor=lecture_list_id)
+@flask_login.login_required
 def feedbackform(lecture_id):
+    if flask_login.current_user.type != 'student':
+        abort(403)
+
     lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
     ##### NB : This should be the student giving the feedback, not just a 
     ##### random student like now (just for testing)
-    student = db.session.query(chalktalk.database.Student).first()
+    student = flask_login.current_user
     #####
 
     if lecture is None:
@@ -248,7 +256,11 @@ def feedbackform(lecture_id):
 
 @app.route('/lecturefeedback/<int:lecture_id>')
 @register_breadcrumb(app, '.feedback', 'Lecture Feedback', 3, endpoint_arguments_constructor=lecture_list_id)
+@flask_login.login_required
 def lecturefeedback(lecture_id):
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
         print('Lecture does not exist: {}'.format(lecture_id))
@@ -258,18 +270,19 @@ def lecturefeedback(lecture_id):
 
 
 @app.route('/semesteroverview/<int:course_id>')
+@flask_login.login_required
 def semesteroverview(course_id):
-    return render_template('semesteroverview.html')
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
 
+    return render_template('semesteroverview.html')
 
 @app.route('/addcourse', methods=['GET', 'POST'])
 @register_breadcrumb(app, '.addcourse', 'Add Course')
+@flask_login.login_required
 def addcourse():
-    curr_user = flask_login.current_user
-    # Bad way to check if the user is lecturer.
-    # (Maybe use a decorator or something like that instead)
-    if not hasattr(curr_user, 'lectures'):
-        return redirect(url_for('index'))
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
 
     if request.method == 'POST':
         course_code = request.form['course_code']
@@ -301,6 +314,6 @@ def addcourse():
         return render_template('createlecturelist.html', course=course, dates=dates)
 
     # Select all courses with no lectures added
-    courses = [c for c in curr_user.courses if len(c.lectures) == 0]
+    courses = [c for c in flask_login.current_user.courses if len(c.lectures) == 0]
 
     return render_template('addcourse.html', courses=courses)
