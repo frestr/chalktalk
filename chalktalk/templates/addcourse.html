@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Add Course{% endblock %}
 
 
 {% block body %}
@@ -98,12 +98,10 @@
                         <h4>From</h4>
                         <div class="time_table">
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from"
-                                       name="{{ day|lower }}_hours_from" placeholder="HH">
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from" placeholder="HH" pattern="([0-1][0-9])|(2[0-3])">
                             </div>
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from"
-                                       name="{{ day|lower }}_minutes_from" placeholder="MM">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from" placeholder="MM" pattern="[0-5][0-9]">
                             </div>
                         </div>
                     </td>
@@ -112,12 +110,10 @@
                         <h4 >To</h4>
                         <div class="time_table">
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to"
-                                       name="{{ day|lower }}_hours_to" placeholder="HH">
+                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" placeholder="HH" pattern="([0-1][0-9])|(2[0-3])">
                             </div>
                             <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to"
-                                       name="{{ day|lower }}_minutes_to" placeholder="MM">
+                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to" placeholder="MM" pattern="[0-5][0-9]">
                             </div>
                         </div>
                     </td>

@@ -194,7 +194,7 @@ def createlecturelist(course_id):
 
         for tags in sorted(tags_list, key=lambda x: x[0]):
             lecture_date = tags[1]
-            lecture = db.add_lecture(course, lecture_date, '1', [flask_login.current_user])
+            lecture = db.add_lecture(course, lecture_date, 'MTDT', [flask_login.current_user])
             # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
             for tag in tags[2].split(','):
                 db.add_subject(lecture, tag.strip())
