@@ -70,8 +70,8 @@
               {{ lecture.parallel }}
           </td>
           <td data-title="Subjects">
-              | {% for subject in lecture.subjects %}
-                  {{ subject.keyword }} |
+              {% for subject in lecture.subjects %}
+                  {{ subject.keyword }}{% if loop.index0 < (lecture.subjects|length - 1)  %},{% endif %}
               {% endfor %}
           </td>
             {% if user == "student" %}
