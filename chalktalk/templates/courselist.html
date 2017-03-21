@@ -42,9 +42,11 @@
             </thead>
             <tbody>
                 {% for course in courses %}
+                    {% if course.lectures|length > 0 %}
                     <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
                         <td>{{ course.code_name }}</td>
                         <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                    {% endif %}
                 {% endfor %}
                 </tr>
             </tbody>
