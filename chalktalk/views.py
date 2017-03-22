@@ -41,7 +41,7 @@ def index():
         # @@@ Temporary for testing
         return redirect(url_for('courselist'))
     else:
-        return render_template('index.html')
+        return render_template('index.html', debugging=app.debug)
 
 
 # For testing
@@ -147,8 +147,9 @@ def logout():
 @app.route('/courselist/')
 @register_breadcrumb(app, '.', 'Course list', 0)
 def courselist():
+    curr_user = flask_login.current_user.type
     courses = flask_login.current_user.courses
-    return render_template('courselist.html', courses=courses)
+    return render_template('courselist.html', courses=courses, user=curr_user)
 
 
 def course_list_id(*args, **kwargs):
@@ -169,26 +170,31 @@ def lecture_list_id(*args, **kwargs):
 @register_breadcrumb(app, '.lecture', 'Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 @flask_login.login_required
 def lecturelist(course_id):
+    curr_user = flask_login.current_user.type
     course = db.session.query(chalktalk.database.Course).get(course_id)
-    return render_template('lecturelist.html', course=course)
+    return render_template('lecturelist.html', course=course, user=curr_user)
 
 
 @app.route('/createlecturelist/<int:course_id>', methods=['POST'])
 @register_breadcrumb(app, '.createcourse', 'Create Lecture List', 1, endpoint_arguments_constructor=course_list_id)
+@flask_login.login_required
 def createlecturelist(course_id):
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
     course = db.session.query(Course).get(course_id)
     if course:
         tags_list = []
         for entry in request.form:
             match = re.fullmatch('([0-9]+)_tags', entry)
             if match:
-                lecture_date= request.form['{}_date'.format(match.group(1))]
+                lecture_date = request.form['{}_date'.format(match.group(1))]
                 lecture_date = datetime.strptime(lecture_date, '%Y-%m-%d %H:%M:%S')
                 tags_list.append((match.group(0), lecture_date, request.form[entry]))
 
         for tags in sorted(tags_list, key=lambda x: x[0]):
             lecture_date = tags[1]
-            lecture = db.add_lecture(course, lecture_date, 'X9999', [flask_login.current_user])
+            lecture = db.add_lecture(course, lecture_date, 'MTDT', [flask_login.current_user])
             # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
             for tag in tags[2].split(','):
                 db.add_subject(lecture, tag.strip())
@@ -203,12 +209,16 @@ def createlecturelist(course_id):
 
 @app.route('/feedback/<int:lecture_id>', methods=['POST', 'GET'])
 @register_breadcrumb(app, '.feedbackform', 'Feedback Form', 2, endpoint_arguments_constructor=lecture_list_id)
+@flask_login.login_required
 def feedbackform(lecture_id):
+    if flask_login.current_user.type != 'student':
+        abort(403)
+
     lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
     ##### NB : This should be the student giving the feedback, not just a 
     ##### random student like now (just for testing)
-    student = db.session.query(chalktalk.database.Student).first()
+    student = flask_login.current_user
     #####
 
     if lecture is None:
@@ -246,7 +256,11 @@ def feedbackform(lecture_id):
 
 @app.route('/lecturefeedback/<int:lecture_id>')
 @register_breadcrumb(app, '.feedback', 'Lecture Feedback', 3, endpoint_arguments_constructor=lecture_list_id)
+@flask_login.login_required
 def lecturefeedback(lecture_id):
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
     lecture = db.session.query(chalktalk.database.Lecture).filter_by(id=lecture_id).first()
     if lecture is None:
         print('Lecture does not exist: {}'.format(lecture_id))
@@ -255,19 +269,51 @@ def lecturefeedback(lecture_id):
     return render_template('lecturefeedback.html', subjects=subjects, lecture=lecture)
 
 
-@app.route('/lecturertest')
-def lecturertest():
-    return render_template('lecturertest.html')
+@app.route('/semesteroverview/<int:course_id>')
+@flask_login.login_required
+def semesteroverview(course_id):
+    course = db.session.query(chalktalk.database.Course).get(course_id)
+    lectures = []
+    # get all of the lectures from the course
+    for lecture in course.lectures:
+        lectures.append(db.session.query(chalktalk.database.Lecture).filter_by(id=lecture.id).first())
+    subjects = []
+    for lecture in lectures:
+        subjects.append(db.get_subject_values(lecture))
+    # getting individual rating
+    labels = []
+    feedback = []
+    for i in range(len(subjects)):
+        for j in range(len(subjects[i])):
+            rating_sum = 0
+            for k in range(len(subjects[i][j]['comments'])):
+                rating_sum += subjects[i][j]['comments'][k][0]
+                #print(subjects[i][j]['comments'][k][0])
+            feedback.append(rating_sum)
+            labels.append(str(subjects[i][j]['name']))
 
+    #print(feedback)
+
+    """
+    for i in range(len(ratings)):
+        res = 0
+        for j in range(len(ratings[i])):
+            res += ratings[i][j]
+        feedback.append(res)
+    """
+
+
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
+    return render_template('semesteroverview.html', course=course, feedback=feedback, label=labels, subjects=subjects)
 
 @app.route('/addcourse', methods=['GET', 'POST'])
 @register_breadcrumb(app, '.addcourse', 'Add Course')
+@flask_login.login_required
 def addcourse():
-    curr_user = flask_login.current_user
-    # Bad way to check if the user is lecturer.
-    # (Maybe use a decorator or something like that instead)
-    if not hasattr(curr_user, 'lectures'):
-        return redirect(url_for('index'))
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
 
     if request.method == 'POST':
         course_code = request.form['course_code']
@@ -299,6 +345,6 @@ def addcourse():
         return render_template('createlecturelist.html', course=course, dates=dates)
 
     # Select all courses with no lectures added
-    courses = [c for c in curr_user.courses if len(c.lectures) == 0]
+    courses = [c for c in flask_login.current_user.courses if len(c.lectures) == 0]
 
     return render_template('addcourse.html', courses=courses)

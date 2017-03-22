@@ -37,7 +37,7 @@
 <!-- End breadcrumbs -->
 
 <div class="container text-center title-box">
-    <H1>Lecture list</H1>
+    <H1>Lecture List</H1>
 </div>
 
 <div class="container text-center">
@@ -53,34 +53,42 @@
         <tr>
           <th>Date</th>
           <th>Parallel</th>
-          <th>Subjects</th>
+          <th>Tags</th>
         </tr>
       </thead>
       <tbody>
       {% for lecture in course.lectures %}
+          {% if user == "lecturer" %}
         <tr class="clickable-row" data-href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">
+          {% else %}
+              <tr>
+          {% endif %}
           <td data-title="Date">
-              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.date.strftime("%Y-%m-%d %H:%M") }}</a>
+              {{ lecture.date.strftime("%Y-%m-%d %H:%M") }}
           </td>
           <td data-title="Parallel">
-              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">{{ lecture.parallel }}</a>
+              {{ lecture.parallel }}
           </td>
-          <td data-title="Subjects">
-              <a href="{{ url_for('lecturefeedback', lecture_id=lecture.id) }}">
+          <td data-title="Tags">
               {% for subject in lecture.subjects %}
-                  {{ subject.keyword }},
+                  {{ subject.keyword }}{% if loop.index0 < (lecture.subjects|length - 1)  %},{% endif %}
               {% endfor %}
-              </a>
           </td>
+            {% if user == "student" %}
             <td>
                 <a href="{{ url_for('feedbackform', lecture_id=lecture.id) }}"><button type="button" class="btn btn-primary glyphicon glyphicon-edit"></button></a>
-
             </td>
+            {% endif %}
         </tr>
       {% endfor %}
       </tbody>
     </table>
-
+    {% if user == "lecturer" %}
+    <div>
+        <a href="{{url_for('semesteroverview', course_id=course.id)}}" type="button" class="btn btn-lg btn-primary btn-block"><div class="glyphicon glyphicon-stats"></div> Semester overview</a>
+    </div>
+    {% endif %}
 </div>
+
 
 {% endblock %}

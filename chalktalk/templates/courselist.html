@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 
-{% block title %}Mine kurs{% endblock %}
+{% block title %}Course List{% endblock %}
 
 {% block body %}
 
@@ -29,7 +29,7 @@
 
 
 <div class="container text-center title-box">
-    <H1>Course list</H1>
+    <H1>Course List</H1>
 </div>
 
 
@@ -42,20 +42,24 @@
             </thead>
             <tbody>
                 {% for course in courses %}
+                    {% if course.lectures|length > 0 %}
                     <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
                         <td>{{ course.code_name }}</td>
                         <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                    {% endif %}
                 {% endfor %}
                 </tr>
             </tbody>
         </table>
 
+<!-- Disables this button for lecturer -->
+{% if user == "lecturer" %}
 <div>
     <a href="{{url_for('addcourse')}}" class="btn btn-lg  btn-primary btn-block" type="submit"> Add course </a>
-
 </div>
+{% endif %}
 
-<a href="{{ url_for('logout') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log out</a>
+<a href="{{ url_for('logout') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit" style="margin-top: 10px;">Log out</a>
 
 
 {% endblock %}
