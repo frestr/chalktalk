@@ -286,13 +286,13 @@ def semesteroverview(course_id):
     for i in range(len(subjects)):
         for j in range(len(subjects[i])):
             rating_sum = 0
-            if subjects[i][j]['comments']:
-                rating_sum += subjects[i][j]['comments'][0][0]
+            for k in range(len(subjects[i][j]['comments'])):
+                rating_sum += subjects[i][j]['comments'][k][0]
+                #print(subjects[i][j]['comments'][k][0])
             feedback.append(rating_sum)
+            labels.append(str(subjects[i][j]['name']))
 
-        labels.append(str(subjects[i][0]['name']))
-
-
+    #print(feedback)
 
     """
     for i in range(len(ratings)):
