@@ -273,10 +273,40 @@ def lecturefeedback(lecture_id):
 @flask_login.login_required
 def semesteroverview(course_id):
     course = db.session.query(chalktalk.database.Course).get(course_id)
+    lectures = []
+    # get all of the lectures from the course
+    for lecture in course.lectures:
+        lectures.append(db.session.query(chalktalk.database.Lecture).filter_by(id=lecture.id).first())
+    subjects = []
+    for lecture in lectures:
+        subjects.append(db.get_subject_values(lecture))
+    # getting individual rating
+    labels = []
+    feedback = []
+    for i in range(len(subjects)):
+        for j in range(len(subjects[i])):
+            rating_sum = 0
+            if subjects[i][j]['comments']:
+                rating_sum += subjects[i][j]['comments'][0][0]
+            feedback.append(rating_sum)
+
+        labels.append(str(subjects[i][0]['name']))
+
+
+
+    """
+    for i in range(len(ratings)):
+        res = 0
+        for j in range(len(ratings[i])):
+            res += ratings[i][j]
+        feedback.append(res)
+    """
+
+
     if flask_login.current_user.type != 'lecturer':
         abort(403)
 
-    return render_template('semesteroverview.html', course=course)
+    return render_template('semesteroverview.html', course=course, feedback=feedback, label=labels, subjects=subjects)
 
 @app.route('/addcourse', methods=['GET', 'POST'])
 @register_breadcrumb(app, '.addcourse', 'Add Course')

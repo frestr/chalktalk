@@ -37,7 +37,17 @@
 
                 <script>
 
-                    var ratings = [1, 2, 2, 3, 3, 4, 1];
+                    //var ratings = [1, 2, 2, 3, 3, 4, 1];
+                    var ratings = {{ feedback }};
+                    var datalabels = [
+                        {% for lab in label %}
+                            ('{{ lab }}'),
+                        {% endfor %}
+                    ];
+
+
+
+
 
                     var ctx = document.getElementById('myChart').getContext('2d');
                     var myChart = new Chart(ctx, {
@@ -46,7 +56,7 @@
 
 
                         data: {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            labels: datalabels,
                             type: 'line',
                             lineThickness: 5,
                             datasets: [{
