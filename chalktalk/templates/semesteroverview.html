@@ -60,6 +60,7 @@
                             type: 'line',
                             lineThickness: 5,
                             datasets: [{
+                            label: 'Average rating',
                             fill: false,
                             lineTension: 0.2,
                             backgroundColor: "rgba(75,192,192,0.4)",
@@ -88,7 +89,8 @@
                                     ticks: {
                                         fontColor: "black",
                                         stepSize: 1,
-                                        beginAtZero:true
+                                        beginAtZero:true,
+                                        max: 5
                                     },
                                     scaleLabel: {
                                         display: true,

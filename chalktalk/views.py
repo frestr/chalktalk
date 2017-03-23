@@ -106,7 +106,7 @@ def oauth_callback():
         course_pattern = 'fc:fs:fs:emne:ntnu\.no:([A-Z]{3}[0-9]{4}):1'
         match = re.fullmatch(course_pattern, group['id'])
         if match:
-            role = group['membership']['fsroles']
+            role = group['membership']['fsroles'][0]
             code_name = match.group(1)
             course = db.session.query(Course).filter_by(code_name=code_name).first()
             # If the course exists in the db already, add
@@ -274,26 +274,42 @@ def lecturefeedback(lecture_id):
 def semesteroverview(course_id):
     course = db.session.query(chalktalk.database.Course).get(course_id)
     lectures = []
+    labels = []
+    lecture_id = 1
     # get all of the lectures from the course
     for lecture in course.lectures:
+        labels.append(lecture_id)
         lectures.append(db.session.query(chalktalk.database.Lecture).filter_by(id=lecture.id).first())
+        lecture_id += 1
     subjects = []
     for lecture in lectures:
         subjects.append(db.get_subject_values(lecture))
     # getting individual rating
-    labels = []
     feedback = []
     for i in range(len(subjects)):
+        rating_sum = 0
         for j in range(len(subjects[i])):
-            rating_sum = 0
             for k in range(len(subjects[i][j]['comments'])):
                 rating_sum += subjects[i][j]['comments'][k][0]
-                #print(subjects[i][j]['comments'][k][0])
-            feedback.append(rating_sum)
-            labels.append(str(subjects[i][j]['name']))
+
+            #if (len(subjects[i][j]['comments']) != 0):
+            #   labels.append(str(subjects[i][j]['name']))
+        #feedback.append(rating_sum)
 
     #print(feedback)
 
+    for lecture in lectures:
+        rating_sum = 0
+        rating_count = 0
+        for subject in lecture.subjects:
+            for rating_feedback in subject.feedbacks:
+                rating_sum += rating_feedback.comprehension_rating
+                rating_count += 1
+        #print("----->" + str(rating_sum) + " " + str(rating_count))
+        if rating_count == 0:
+            feedback.append(rating_sum/1)
+        else:
+            feedback.append(rating_sum/rating_count)
     """
     for i in range(len(ratings)):
         res = 0
@@ -301,7 +317,6 @@ def semesteroverview(course_id):
             res += ratings[i][j]
         feedback.append(res)
     """
-
 
     if flask_login.current_user.type != 'lecturer':
         abort(403)
