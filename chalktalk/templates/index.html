@@ -18,22 +18,28 @@ h1, h3{
 
 .sign-in-btn {
     margin-top: 50px;
+
 }
 
 body{
     background-color: black;
 }
 
+#logo_image{
+
+}
+
 </style>
 
 <div id="logo_image" class="container text-center title-box">
-    <img src="{{ url_for('static', filename='images/CHALKTALK_LOGO.png') }}" alt="Chalktalk Logo"
-        width="200">
+    <img src="{{ url_for('static', filename='images/chalktalk_logo_resized.png') }}" alt="Chalktalk Logo"
+        width="500">
 </div>
 
 <div class="container login">
-    <h3 class="form-signin-heading"> Please log in using FEIDE</h3>
-    <a href="{{ url_for('oauth_authorize') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn" type="submit">Log in</a>
+    <!--<h3 class="form-signin-heading"> Please log in using FEIDE</h3>-->
+    <a href="{{ url_for('oauth_authorize') }}" class="btn btn-lg btn-primary btn-primary btn-block sign-in-btn"
+       type="submit">Log in with Feide</a>
 </div>
 
 {% if debugging %}
