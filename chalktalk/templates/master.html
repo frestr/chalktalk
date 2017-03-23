@@ -27,7 +27,7 @@
 
     <style>
         body{
-           background-image: url("/static/images/blackboard.jpeg");
+           background-image: url({{ url_for('static', filename='images/blackboard.jpeg') }});
         }
 
         h1, h2, h3, p, form, a{
@@ -88,6 +88,15 @@
         #logo_image{
             margin-top: 3em;
         }
+
+        .container {
+            min-width: 600px;
+            max-width: 1000px;
+            width: 80%;
+            clear: both;
+            padding-top: 10px;
+        }
+
     </style>
 
 
