@@ -106,7 +106,7 @@ def oauth_callback():
         course_pattern = 'fc:fs:fs:emne:ntnu\.no:([A-Z]{3}[0-9]{4}):1'
         match = re.fullmatch(course_pattern, group['id'])
         if match:
-            role = group['membership']['fsroles']
+            role = group['membership']['fsroles'][0]
             code_name = match.group(1)
             course = db.session.query(Course).filter_by(code_name=code_name).first()
             # If the course exists in the db already, add
