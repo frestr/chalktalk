@@ -99,3 +99,4 @@ pip-selfcheck.json
 dummy.db
 
 /chalktalk/secret_settings.py
+/chalktalk/settings.py
