@@ -20,6 +20,8 @@ class TestDatabaseUserCourses(unittest.TestCase):
         elif role == 'lecturer':
             self.db.add_lecturer(uuid, name)
         else:
+            user = self.db._add_user(uuid, name, role)
+            self.assertIsNone(user)
             self.fail()
 
         self.db.save_changes()
@@ -34,8 +36,13 @@ class TestDatabaseUserCourses(unittest.TestCase):
         # Try to add the user twice. The first time the user should be properly added,
         # and the second the time nothing should change, because duplicate users
         # are not allowed
+
         uuid = '4fa2fd2b-9143-47c5-8325-cf43bc26271b'
         name = 'bob'
+        # Invalid role, should fail
+        with self.assertRaises(AssertionError):
+            self.add_user(uuid, name, 'bleh')
+
         self.add_user(uuid, name, 'student')
         with self.assertRaises(AssertionError):
             self.add_user(uuid, name, 'student')
