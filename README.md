@@ -1,4 +1,7 @@
 # chalktalk
+
+[![Coverage Status](https://coveralls.io/repos/github/frestr/chalktalk/badge.png)](https://coveralls.io/github/frestr/chalktalk)
+
 Project for the course "Software Development"
 
 To set up project:
