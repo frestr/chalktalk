@@ -10,6 +10,6 @@ before_script:
     - "cp chalktalk/secret_settings.py.example chalktalk/secret_settings.py"
     - "echo 'DATABASE_URL = \"sqlite:///dummy.db\"' > chalktalk/settings.py"
 script: 
-    - "coverage run -m unittest discover"
+    - "coverage run --source=chalktalk -m unittest discover"
 after_success: 
     - "coveralls"
