@@ -1,5 +1,6 @@
 # chalktalk
 
+[![Build Status](https://travis-ci.org/frestr/chalktalk.svg?branch=master)](https://travis-ci.org/frestr/chalktalk)
 [![Coverage Status](https://coveralls.io/repos/github/frestr/chalktalk/badge.svg?branch=dev)](https://coveralls.io/github/frestr/chalktalk?branch=dev)
 
 Project for the course "Software Development"
