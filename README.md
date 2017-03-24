@@ -1,6 +1,6 @@
 # chalktalk
 
-[![Coverage Status](https://coveralls.io/repos/github/frestr/chalktalk/badge.png)](https://coveralls.io/github/frestr/chalktalk)
+[![Coverage Status](https://coveralls.io/repos/github/frestr/chalktalk/badge.svg?branch=dev)](https://coveralls.io/github/frestr/chalktalk?branch=dev)
 
 Project for the course "Software Development"
 
