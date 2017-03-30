@@ -372,6 +372,30 @@ def editlecturetags(course_id):
 
     course = db.session.query(chalktalk.database.Course).get(course_id)
     if request.method == 'POST':
-        pass
 
-    return render_template('editlecturetags.html', lectures=course.lectures)
+        tags_list = []
+        for entry in request.form:
+            match = re.fullmatch('([0-9]+)_tags', entry)
+            if match:
+                lecture_date = request.form['{}_date'.format(match.group(1))]
+                lecture_date = datetime.strptime(lecture_date, '%Y-%m-%d %H:%M:%S')
+                tags_list.append((match.group(0), lecture_date, request.form[entry]))
+
+        for tags in sorted(tags_list, key=lambda x: x[0]):
+            lecture_date = tags[1]
+            lecture = db.add_lecture(course, lecture_date, 'MTDT', [flask_login.current_user])
+            # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
+            for tag in tags[2].split(','):
+                db.add_subject(lecture, tag.strip())
+
+        db.save_changes()
+
+    lecture_tags = []
+    for lecture in course.lectures:
+        tags = ""
+        for subject in lecture.subjects:
+            tags += subject.keyword + ", "
+        lecture_tags.append(tags)
+        print(lecture_tags)
+
+    return render_template('editlecturetags.html', lectures=course.lectures, course=course, tags=lecture_tags)

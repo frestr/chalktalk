@@ -1,0 +1,54 @@
+{% extends "master.html" %}
+
+{% block title %}Add Course{% endblock %}
+
+{% block body %}
+
+    <!-- Breacrumbs -->
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+        <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
+        <li><a href="{{ url_for('createlecturelist', course_id=course.id) }}"></a>Edit Lecture Tags</li>
+    </ul>
+    <!-- End breadcrumbs -->
+
+    <div class="text-center">
+        <h3>Edit lectures and tags for {{ course.code_name }}</h3>
+    </div>
+
+    <form action="{{ url_for('editlecturetags', course_id = course.id) }}" method=POST>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Lecture number
+                    </th>
+                    <th>
+                        Tags
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set i = [1] %}
+            {% for lecture in lectures %}
+                <tr>
+                        {% set id = i[0] %}
+                        {% set lecture_id = id|string %}
+                        <td>
+                            <b>Lecture #{{ id }}</b>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" name="{{ lecture_id }}_tags" id="{{ lecture_id }}_tags" placeholder="tag one, tag two" pattern="[a-zA-Z0-9 _æøå]+((,[a-zA-Z0-9 _æøå]+)?)*" required="required" value=
+                                    {% for tag in tags %}
+                                        "{{ tag }}"
+                                    {% endfor %}
+                                    "{{ tags }} ">
+                        </td>
+                        {% if i.append(i.pop() + 1) %}{% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input class="btn btn-lg btn-block btn-primary" type="submit" value="Save">
+    </form>
+{% endblock %}
