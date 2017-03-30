@@ -363,3 +363,15 @@ def addcourse():
     courses = [c for c in flask_login.current_user.courses if len(c.lectures) == 0]
 
     return render_template('addcourse.html', courses=courses)
+
+@app.route('/editlecturetags/<int:course_id>', methods=['GET', 'POST'])
+@flask_login.login_required
+def editlecturetags(course_id):
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
+    course = db.session.query(chalktalk.database.Course).get(course_id)
+    if request.method == 'POST':
+        pass
+
+    return render_template('editlecturetags.html', lectures=course.lectures)
