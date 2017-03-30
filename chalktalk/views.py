@@ -172,7 +172,9 @@ def lecture_list_id(*args, **kwargs):
 def lecturelist(course_id):
     curr_user = flask_login.current_user.type
     course = db.session.query(chalktalk.database.Course).get(course_id)
-    return render_template('lecturelist.html', course=course, user=curr_user)
+    if course:
+        return render_template('lecturelist.html', course=course, user=curr_user)
+    return redirect(url_for('courselist'))
 
 
 @app.route('/createlecturelist/<int:course_id>', methods=['POST'])
