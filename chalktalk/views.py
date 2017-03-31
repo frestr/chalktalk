@@ -394,9 +394,11 @@ def editlecturetags(course_id):
 
     lecture_tags = []
     for lecture in course.lectures:
+        #tag_list = []
         tags = ""
         for subject in lecture.subjects:
             tags += subject.keyword + ", "
+        #tag_list.append(tags)
         lecture_tags.append(tags)
         print(lecture_tags)
 
