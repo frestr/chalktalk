@@ -27,7 +27,7 @@ class DataportenSignin():
 
     def callback(self):
         if 'code' not in request.args:
-            return None
+            return None, None
         try:
             oauth_session = self.service.get_auth_session(
                 data={'code': request.args['code'],
@@ -36,7 +36,7 @@ class DataportenSignin():
                 decoder=lambda x: json.loads(x.decode())
             )
         except KeyError:
-            return None
+            return None, None
         userinfo = oauth_session.get('userinfo').json()
         groups = oauth_session.get('https://groups-api.dataporten.no/groups/me/groups').json()
         if ('user' in userinfo and
