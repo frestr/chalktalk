@@ -120,7 +120,16 @@ class TestViews(unittest.TestCase):
         pass
 
     def test_semesteroverview(self):
-        pass
+        rv = self.login('lecturer')
+        course = self.db.add_course('TDT4140', 'Programvareutvikling', 'V2017')
+        lecture = self.db.add_lecture(course, datetime(2017, 3, 10, 14, 15), 'MTDT', [])
+        subject = self.db.add_subject(lecture, 'SUPER FUN')
+        feedback = self.db.add_lecture_feedback(self.student, lecture, '')
+        self.db.add_subject_feedback(feedback, subject, 5, 'bleh')
+
+        self.db.save_changes()
+
+        self.app.get('/semesteroverview/{}'.format(course.id))
 
     def test_add_course(self):
         pass
