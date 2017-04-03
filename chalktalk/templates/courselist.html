@@ -42,6 +42,11 @@
                     <tr class="clickable-row" data-href="{{ url_for('lecturelist', course_id=course.id) }}">
                         <td>{{ course.code_name }}</td>
                         <td><a href="{{ url_for('lecturelist', course_id=course.id) }}">{{ course.full_name }}</a></td>
+                        {% if user == "lecturer" %}
+                        <td>
+                            <a href="{{ url_for('editlecturetags', course_id=course.id) }}"><button type="button" class="btn btn-primary glyphicon glyphicon-edit"></button></a>
+                        </td>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
                 </tr>

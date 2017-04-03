@@ -379,6 +379,7 @@ def editlecturetags(course_id):
         for entry in request.form:
             match = re.fullmatch('([0-9]+)_tags', entry)
             if match:
+                #TODO: add getting the lecture date from db!
                 lecture_date = request.form['{}_date'.format(match.group(1))]
                 lecture_date = datetime.strptime(lecture_date, '%Y-%m-%d %H:%M:%S')
                 tags_list.append((match.group(0), lecture_date, request.form[entry]))
@@ -391,6 +392,7 @@ def editlecturetags(course_id):
                 db.add_subject(lecture, tag.strip())
 
         db.save_changes()
+        print("Chages saved")
 
     lecture_tags = []
     for lecture in course.lectures:
