@@ -172,7 +172,9 @@ def lecture_list_id(*args, **kwargs):
 def lecturelist(course_id):
     curr_user = flask_login.current_user.type
     course = db.session.query(chalktalk.database.Course).get(course_id)
-    return render_template('lecturelist.html', course=course, user=curr_user)
+    if course:
+        return render_template('lecturelist.html', course=course, user=curr_user)
+    return redirect(url_for('courselist'))
 
 
 @app.route('/createlecturelist/<int:course_id>', methods=['POST'])
@@ -363,3 +365,43 @@ def addcourse():
     courses = [c for c in flask_login.current_user.courses if len(c.lectures) == 0]
 
     return render_template('addcourse.html', courses=courses)
+
+@app.route('/editlecturetags/<int:course_id>', methods=['GET', 'POST'])
+@flask_login.login_required
+def editlecturetags(course_id):
+    if flask_login.current_user.type != 'lecturer':
+        abort(403)
+
+    course = db.session.query(chalktalk.database.Course).get(course_id)
+    if request.method == 'POST':
+
+        for entry in request.form:
+            match = re.fullmatch('([0-9]+)_tags', entry)
+            if match:
+                lecture = db.session.query(chalktalk.database.Lecture).get(match.group(1))
+                old_tags = {s.keyword:s for s in lecture.subjects}
+                new_tags = []
+                for tag in request.form[entry].split(','):
+                    if tag and tag != ' ':
+                        tag = tag.strip()
+                        new_tags.append(tag)
+                        if tag not in old_tags.keys():
+                            # New tag created
+                            db.add_subject(lecture, tag)
+
+                for key, value in old_tags.items():
+                    # Old tag deleted
+                    if key not in new_tags:
+                        lecture.subjects.remove(value)
+
+        db.save_changes()
+        return redirect(url_for('lecturelist', course_id=course_id))
+
+    lecture_tags = []
+    for lecture in course.lectures:
+        tags = ""
+        for subject in lecture.subjects:
+            tags += subject.keyword + ", "
+        lecture_tags.append(tags)
+
+    return render_template('editlecturetags.html', lectures=course.lectures, course=course, tags=lecture_tags)
