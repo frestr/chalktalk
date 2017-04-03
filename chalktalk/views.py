@@ -375,33 +375,33 @@ def editlecturetags(course_id):
     course = db.session.query(chalktalk.database.Course).get(course_id)
     if request.method == 'POST':
 
-        tags_list = []
         for entry in request.form:
             match = re.fullmatch('([0-9]+)_tags', entry)
             if match:
-                #TODO: add getting the lecture date from db!
-                lecture_date = request.form['{}_date'.format(match.group(1))]
-                lecture_date = datetime.strptime(lecture_date, '%Y-%m-%d %H:%M:%S')
-                tags_list.append((match.group(0), lecture_date, request.form[entry]))
+                lecture = db.session.query(chalktalk.database.Lecture).get(match.group(1))
+                old_tags = {s.keyword:s for s in lecture.subjects}
+                new_tags = []
+                for tag in request.form[entry].split(','):
+                    if tag and tag != ' ':
+                        tag = tag.strip()
+                        new_tags.append(tag)
+                        if tag not in old_tags.keys():
+                            # New tag created
+                            db.add_subject(lecture, tag)
 
-        for tags in sorted(tags_list, key=lambda x: x[0]):
-            lecture_date = tags[1]
-            lecture = db.add_lecture(course, lecture_date, 'MTDT', [flask_login.current_user])
-            # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
-            for tag in tags[2].split(','):
-                db.add_subject(lecture, tag.strip())
+                for key, value in old_tags.items():
+                    # Old tag deleted
+                    if key not in new_tags:
+                        lecture.subjects.remove(value)
 
         db.save_changes()
-        print("Chages saved")
+        return redirect(url_for('lecturelist', course_id=course_id))
 
     lecture_tags = []
     for lecture in course.lectures:
-        #tag_list = []
         tags = ""
         for subject in lecture.subjects:
             tags += subject.keyword + ", "
-        #tag_list.append(tags)
         lecture_tags.append(tags)
-        print(lecture_tags)
 
     return render_template('editlecturetags.html', lectures=course.lectures, course=course, tags=lecture_tags)
