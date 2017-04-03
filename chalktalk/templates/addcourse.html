@@ -2,8 +2,8 @@
 
 {% block title %}Add Course{% endblock %}
 
-
 {% block body %}
+    <!-- Styling -->
     <style>
         #course_label{
             color: white;
@@ -17,8 +17,8 @@
         }
 
         .container input {
-        width: 100%;
-        clear: both;
+            width: 100%;
+            clear: both;
         }
 
         .time_table{
@@ -40,15 +40,14 @@
             *overflow: hidden;
         }
 
-    #checkbox_label{
-        display: block;
-        padding-top: 2em;
-        padding-left: 15px;
-        text-indent: -15px;
-    }
-
+        #checkbox_label{
+            display: block;
+            padding-top: 2em;
+            padding-left: 15px;
+            text-indent: -15px;
+        }
     </style>
-
+    <!-- End styling -->
 
     <!-- Breacrumbs -->
     <ul class="breadcrumb">
@@ -57,64 +56,66 @@
     </ul>
     <!-- End breadcrumbs -->
 
-    <label id="course_label" for="course_code">Course:</label>
-     <select name="course_code" id="course_code" form="course_form">
-        {% for course in courses %}
-        <option value="{{ course.code_name }}">{{ course.code_name }} {{ course.full_name }}</option>
-        {% endfor %}
-    </select>
 
-    <form action="{{ url_for('addcourse')}}" id="course_form" method="POST">
-        {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
 
-        <div class="container">
+
+        <label id="course_label" for="course_code">Course:</label>
+        <select name="course_code" id="course_code" form="course_form">
+            {% for course in courses %}
+                <option value="{{ course.code_name }}">{{ course.code_name }} {{ course.full_name }}</option>
+            {% endfor %}
+        </select>
+
+        <form action="{{ url_for('addcourse')}}" id="course_form" method="POST">
+            {% set days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] %}
+
+
             <label for="from_date">Lectures start date:</label>
             <p>Date: <input type="text" id="datepicker_from" size="30" placeholder="yyyy-mm-dd" name="from_date" id="from_date"></p>
 
             <label for="to_date">Lectures end date:</label>
             <p>Date: <input type="text" id="datepicker_to" size="30" placeholder="yyyy-mm-dd" name="to_date" id="to_date"></p>
 
-        </div>
 
-        <div class="form-group container">
+
             <table class="table table-bordered">
                 {% for day in days %}
-                <tr>
-                    <td>
+                    <tr>
+                        <td>
 
-                        <label id="checkbox_label"for="{{ day|lower }}">
-                            <input type="checkbox"  name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
-                            {{ day }}
-                        </label>
-                    </td>
-                    <td>
-                        <label for="{{ day|lower }}_hours_from"></label>
-                        <h4>From</h4>
-                        <div class="time_table">
-                            <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from" placeholder="HH" pattern="([0-1][0-9])|(2[0-3])">
+                            <label id="checkbox_label"for="{{ day|lower }}">
+                                <input type="checkbox"  name="{{ day|lower }}" id="{{ day|lower }}" style="padding: 0;">
+                                {{ day }}
+                            </label>
+                        </td>
+                        <td>
+                            <label for="{{ day|lower }}_hours_from"></label>
+                            <h4>From</h4>
+                            <div class="time_table">
+                                <div class="time_cell">
+                                    <input type="text" class="form-control" id="{{ day|lower }}_hours_from" name="{{ day|lower }}_hours_from" placeholder="HH" pattern="([0-1][0-9])|(2[0-3])">
+                                </div>
+                                <div class="time_cell">
+                                    <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from" placeholder="MM" pattern="[0-5][0-9]">
+                                </div>
                             </div>
-                            <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_from" name="{{ day|lower }}_minutes_from" placeholder="MM" pattern="[0-5][0-9]">
+                        </td>
+                        <td>
+                            <label for="{{ day|lower }}_minutes_to" ></label>
+                            <h4 >To</h4>
+                            <div class="time_table">
+                                <div class="time_cell">
+                                    <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" placeholder="HH" pattern="([0-1][0-9])|(2[0-3])">
+                                </div>
+                                <div class="time_cell">
+                                    <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to" placeholder="MM" pattern="[0-5][0-9]">
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <label for="{{ day|lower }}_minutes_to" ></label>
-                        <h4 >To</h4>
-                        <div class="time_table">
-                            <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_hours_to" name="{{ day|lower }}_hours_to" placeholder="HH" pattern="([0-1][0-9])|(2[0-3])">
-                            </div>
-                            <div class="time_cell">
-                                <input type="text" class="form-control" id="{{ day|lower }}_minutes_to" name="{{ day|lower }}_minutes_to" placeholder="MM" pattern="[0-5][0-9]">
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-               {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
-        </div>
-        <input type="submit" class="btn btn-lg btn-primary btn-block " value="Submit">
-    </form>
+            <input type="submit" class="btn btn-lg btn-primary btn-block " value="Submit">
+        </form>
+
 {% endblock %}

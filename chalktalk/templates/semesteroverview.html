@@ -4,163 +4,112 @@
 
 {% block body %}
 
-        <script type="text/javascript" src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
 
-        <style>
-            body{
-                color: black;
-            }
-            .table{
-                background-color: white;
-            }
+    <style>
+        body{
+            color: black;
+        }
+        .table{
+            background-color: white;
+        }
 
-            th{
-                color: black;
-            }
+        th{
+            color: black;
+        }
 
-            canvas{
-                background-color: white;
-            }
+        canvas{
+            background-color: white;
+        }
 
-        </style>
+    </style>
 
-        <!-- Breacrumbs -->
-        <ul class="breadcrumb">
-            <li><a href="{{ url_for('courselist') }}">Course List</a></li>
-            <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
-            <li><a href="{{ url_for('semesteroverview', course_id=course.id)}}">Semester Overview</a></li>
-        </ul>
-        <!-- End breadcrumbs -->
-
-
-                <canvas id="myChart"></canvas>
-
-                <script>
-
-                    //var ratings = [1, 2, 2, 3, 3, 4, 1];
-                    var ratings = {{ feedback }};
-                    var datalabels = [
-                        {% for lab in label %}
-                            ('{{ lab }}'),
-                        {% endfor %}
-                    ];
+    <!-- Breacrumbs -->
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('courselist') }}">Course List</a></li>
+        <li><a href="{{ url_for('lecturelist', course_id=course.id) }}">Lecture List</a></li>
+        <li><a href="{{ url_for('semesteroverview', course_id=course.id)}}">Semester Overview</a></li>
+    </ul>
+    <!-- End breadcrumbs -->
 
 
+    <canvas id="myChart"></canvas>
+
+    <script>
+        //var ratings = [1, 2, 2, 3, 3, 4, 1];
+        var ratings = {{ feedback }};
+        var datalabels = [
+            {% for lab in label %}
+                ('{{ lab }}'),
+            {% endfor %}
+        ];
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            scaleFontColor: "white",
+            type: 'line',
 
 
-
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        scaleFontColor: "white",
-                        type: 'line',
-
-
-                        data: {
-                            labels: datalabels,
-                            type: 'line',
-                            lineThickness: 5,
-                            datasets: [{
-                            label: 'Average rating',
-                            fill: false,
-                            lineTension: 0.0,
-                            backgroundColor: "rgba(75,192,192,0.4)",
-                            borderColor: "rgba(75,192,192,1)",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "rgba(75,192,192,1)",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 1,
-                            pointHitRadius: 10,
-                            data: ratings,
-                            spanGaps: false,
-                            }]
+            data: {
+                labels: datalabels,
+                type: 'line',
+                lineThickness: 5,
+                datasets: [{
+                    label: 'Average rating',
+                    fill: false,
+                    lineTension: 0.0,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: ratings,
+                    spanGaps: false,
+                }]
+            },
+            options: {
+                legend: {labels:{fontColor:"black", fontSize: 18}},
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            stepSize: 1,
+                            beginAtZero:true,
+                            max: 5
                         },
-                        options: {
-                            legend: {labels:{fontColor:"black", fontSize: 18}},
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        fontColor: "black",
-                                        stepSize: 1,
-                                        beginAtZero:true,
-                                        max: 5
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: 'Rating',
-                                        fontColor: "black"
-                                    }
-                                }],
-                                xAxes: [{
-                                    ticks: {
-                                        fontColor: "black",
-                                        beginAtZero:true
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: 'Time',
-                                        fontColor: "black"
-                                    }
-                                }]
-                            }
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Rating',
+                            fontColor: "black"
                         }
-                    });
-
-                </script>
-
-            <!--
-
-                <script>
-                var ctx = document.getElementById("myChart");
-
-                var data = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
-                    datasets: [
-                        {
-                            label: "My First dataset",
-                            fill: false,
-                            lineTension: 0.2,
-                            backgroundColor: "rgba(75,192,192,0.4)",
-                            borderColor: "rgba(75,192,192,1)",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "rgba(75,192,192,1)",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 1,
-                            pointHitRadius: 10,
-                            data: [65, 59, 80, 81, 56, 55, 40],
-                            spanGaps: false,
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            beginAtZero:true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time',
+                            fontColor: "black"
                         }
-                    ]
-                };
+                    }]
+                }
+            }
+        });
 
-                var myLineChart = new Chart(ctx, {
-                    type: 'line',
-                    data: data,
-                    options: {
-                        lineTension: 0
-                    }
-                });
-
-
-
-               </script>
-               -->
-            </div>
+    </script>
+    </div>
 
 
 {% endblock %}
