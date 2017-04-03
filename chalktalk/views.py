@@ -50,11 +50,11 @@ def login():
     role = request.args.get('role', '')
     user = None
     if role == 'student':
-        user = db.session.query(User).\
-                filter_by(uuid='ec56354e-767b-4dbd-a129-0fda4359f45c').first()
+        user = db.session.query(User). \
+            filter_by(uuid='ec56354e-767b-4dbd-a129-0fda4359f45c').first()
     elif role == 'lecturer':
-        user = db.session.query(User).\
-                filter_by(uuid='7b96eab9-b69e-4b8c-9636-1da868207864').first()
+        user = db.session.query(User). \
+            filter_by(uuid='7b96eab9-b69e-4b8c-9636-1da868207864').first()
 
     if user:
         flask_login.login_user(user)
@@ -122,7 +122,7 @@ def oauth_callback():
                 semester = util.get_semester(group)
                 # notAfter in group means that the course is old
                 if (role == 'EMPLOYEE' and
-                        'notAfter' not in group['membership']):
+                            'notAfter' not in group['membership']):
                     db.add_course(code_name, full_name, semester, [user])
 
     db.save_changes()
@@ -236,8 +236,8 @@ def feedbackform(lecture_id):
                     '{}_rating'.format(subject.id),
                     '{}_comment'.format(subject.id)]
             if (keys[0] in request.form and
-                    keys[1] in request.form and
-                    keys[2] in request.form):
+                        keys[1] in request.form and
+                        keys[2] in request.form):
                 db.add_subject_feedback(lecture_feedback,
                                         subject,
                                         request.form[keys[1]],
@@ -294,9 +294,9 @@ def semesteroverview(course_id):
             for k in range(len(subjects[i][j]['comments'])):
                 rating_sum += subjects[i][j]['comments'][k][0]
 
-            #if (len(subjects[i][j]['comments']) != 0):
-            #   labels.append(str(subjects[i][j]['name']))
-        #feedback.append(rating_sum)
+                #if (len(subjects[i][j]['comments']) != 0):
+                #   labels.append(str(subjects[i][j]['name']))
+                #feedback.append(rating_sum)
 
     #print(feedback)
 
@@ -324,6 +324,7 @@ def semesteroverview(course_id):
         abort(403)
 
     return render_template('semesteroverview.html', course=course, feedback=feedback, label=labels, subjects=subjects)
+
 
 @app.route('/addcourse', methods=['GET', 'POST'])
 @register_breadcrumb(app, '.addcourse', 'Add Course')
@@ -365,6 +366,7 @@ def addcourse():
     courses = [c for c in flask_login.current_user.courses if len(c.lectures) == 0]
 
     return render_template('addcourse.html', courses=courses)
+
 
 @app.route('/editlecturetags/<int:course_id>', methods=['GET', 'POST'])
 @flask_login.login_required
