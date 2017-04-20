@@ -38,7 +38,7 @@ cp chalktalk/settings.py.example chalktalk/settings.py
 and change the content of settings.py to contain the file location of the
 database (doesn't have to exist yet).
 
-For example, if the database file is located in the root project directory, the
+For example, if the database file is located in the project root directory, the
 file path can be 
 ```
 DATABASE_URL = 'sqlite:///database.db'
@@ -49,7 +49,7 @@ Copy the secret settings example file:
 cp chalktalk/secret_settings.py.example chalktalk/secret_settings.py
 ```
 and change the cookie signing key and the Dataporten OAUTH credentials. If
-Dataporten is not be used, the values should be kept unchanged.
+Dataporten is not to be used, the values should be kept unchanged.
 
 ### 4. Create the database
 
