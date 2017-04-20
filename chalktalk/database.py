@@ -7,8 +7,8 @@ Base = declarative_base()
 
 # This must be imported AFTER Base has been instantiated!
 from chalktalk.models import User, Student, Lecturer, \
-                             Course, Lecture, Subject, \
-                             Lecture_feedback, Subject_feedback
+    Course, Lecture, Subject, \
+    Lecture_feedback, Subject_feedback
 
 
 class DatabaseManager():
@@ -72,7 +72,7 @@ class DatabaseManager():
                     YYYY is the year, e.g. V2017
         lecturers : list of Lecturer objects. optional
         '''
-        if self.session.query(Course).\
+        if self.session.query(Course). \
                 filter_by(code_name=code_name, semester=semester).count() != 0:
             return None
 
@@ -171,7 +171,7 @@ class DatabaseManager():
             ratings = [feedback.comprehension_rating for feedback in subject.feedbacks]
             rating_counts = [ratings.count(i) for i in range(1, 6)]
             comments = [(feedback.comprehension_rating, feedback.comment, feedback.lecture_feedback.student.id)
-                            for feedback in subject.feedbacks]
+                        for feedback in subject.feedbacks]
             data.append({'name': name,
                          'ratings': rating_counts,
                          'comments': comments})

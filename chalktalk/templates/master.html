@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,19 +15,19 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      <script>
-      $( function() {
-        $( "#datepicker_from" ).datepicker();
-        $( "#datepicker_to" ).datepicker();
-        $( "#datepicker_from" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
-        $( "#datepicker_to" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
-      } );
-      </script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker_from" ).datepicker();
+            $( "#datepicker_to" ).datepicker();
+            $( "#datepicker_from" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
+            $( "#datepicker_to" ).datepicker( "option", "dateFormat", 'yy-mm-dd');
+        } );
+    </script>
 
     <style>
         body{
-           background-image: url({{ url_for('static', filename='images/blackboard.jpeg') }});
+            background-image: url({{ url_for('static', filename='images/blackboard.jpeg') }});
         }
 
         h1, h2, h3, p, form, a{
@@ -96,48 +96,40 @@
             clear: both;
             padding-top: 10px;
         }
-
     </style>
 
+</head>
 
+<body>
 
-  </head>
-
-  <body>
-
-      <div class="starter-template">
-        <div class="container">
-          <div class="row row-centered">
+<div class="starter-template">
+    <div class="container">
+        <div class="row row-centered">
 
             {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <br>
-                {% for category, message in messages %}
-                <p {% if category == 'error' %}style="color:red;">{% endif %}{{ message|safe }}</p>
-                {% endfor %}
-              {% endif %}
+                {% if messages %}
+                    <br>
+                    {% for category, message in messages %}
+                        <p {% if category == 'error' %}style="color:red;">{% endif %}{{ message|safe }}</p>
+                    {% endfor %}
+                {% endif %}
             {% endwith %}
 
-<!--           <div> -->
-<!--             {%- for breadcrumb in breadcrumbs -%} -->
-<!--                 <a href="{{ breadcrumb.url }}">{{ breadcrumb.text }}</a> -->
-<!--                 {{ '/' if not loop.last }} -->
-<!--             {%- endfor -%} -->
-<!--           </div> -->
 
+            <!-- The main body block extends from here -->
             {% block body %}{% endblock %}
 
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
-    </div><!-- /.container -->
-  </body>
+</div><!-- /.container -->
+</body>
 
 <script>
     jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
         });
     });
 </script>

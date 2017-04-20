@@ -7,21 +7,21 @@ from flask_login import UserMixin
 
 # This is used for many-to-many relations
 relation_tables = {
-        'student_course':
-            Table('student_course_relation', Base.metadata,
-                Column('student_id', Integer, ForeignKey('student.id')),
-                Column('course_id', Integer, ForeignKey('course.id'))
-            ),
-        'lecturer_course':
-            Table('lecturer_course_relation', Base.metadata,
-                Column('lecturer_id', Integer, ForeignKey('lecturer.id')),
-                Column('course_id', Integer, ForeignKey('course.id'))
-            ),
-        'lecturer_lecture':
-            Table('lecturer_lecture_relation', Base.metadata,
-                Column('lecturer_id', Integer, ForeignKey('lecturer.id')),
-                Column('lecture_id', Integer, ForeignKey('lecture.id'))
-            )
+    'student_course':
+        Table('student_course_relation', Base.metadata,
+              Column('student_id', Integer, ForeignKey('student.id')),
+              Column('course_id', Integer, ForeignKey('course.id'))
+              ),
+    'lecturer_course':
+        Table('lecturer_course_relation', Base.metadata,
+              Column('lecturer_id', Integer, ForeignKey('lecturer.id')),
+              Column('course_id', Integer, ForeignKey('course.id'))
+              ),
+    'lecturer_lecture':
+        Table('lecturer_lecture_relation', Base.metadata,
+              Column('lecturer_id', Integer, ForeignKey('lecturer.id')),
+              Column('lecture_id', Integer, ForeignKey('lecture.id'))
+              )
 }
 
 
@@ -43,9 +43,9 @@ class Student(User):
     id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
     courses = relationship(
-            'Course',
-            secondary=relation_tables['student_course'],
-            back_populates='students')
+        'Course',
+        secondary=relation_tables['student_course'],
+        back_populates='students')
 
     lecture_feedbacks = relationship('Lecture_feedback', back_populates='student')
 
@@ -59,14 +59,14 @@ class Lecturer(User):
     id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
     courses = relationship(
-            'Course',
-            secondary=relation_tables['lecturer_course'],
-            back_populates='lecturers')
+        'Course',
+        secondary=relation_tables['lecturer_course'],
+        back_populates='lecturers')
 
     lectures = relationship(
-            'Lecture',
-            secondary=relation_tables['lecturer_lecture'],
-            back_populates='lecturers')
+        'Lecture',
+        secondary=relation_tables['lecturer_lecture'],
+        back_populates='lecturers')
 
     __mapper_args__ = {
         'polymorphic_identity': 'lecturer'
@@ -81,14 +81,14 @@ class Course(Base):
     semester = Column(String(5))
 
     students = relationship(
-            'Student',
-            secondary=relation_tables['student_course'],
-            back_populates='courses')
+        'Student',
+        secondary=relation_tables['student_course'],
+        back_populates='courses')
 
     lecturers = relationship(
-            'Lecturer',
-            secondary=relation_tables['lecturer_course'],
-            back_populates='courses')
+        'Lecturer',
+        secondary=relation_tables['lecturer_course'],
+        back_populates='courses')
 
     lectures = relationship('Lecture', back_populates='course')
 
@@ -103,9 +103,9 @@ class Lecture(Base):
     course = relationship('Course', back_populates='lectures')
 
     lecturers = relationship(
-            'Lecturer',
-            secondary=relation_tables['lecturer_lecture'],
-            back_populates='lectures')
+        'Lecturer',
+        secondary=relation_tables['lecturer_lecture'],
+        back_populates='lectures')
 
     feedbacks = relationship('Lecture_feedback', back_populates='lecture')
 

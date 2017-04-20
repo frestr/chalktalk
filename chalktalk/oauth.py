@@ -40,7 +40,7 @@ class DataportenSignin():
         userinfo = oauth_session.get('userinfo').json()
         groups = oauth_session.get('https://groups-api.dataporten.no/groups/me/groups').json()
         if ('user' in userinfo and
-                'name' in userinfo['user'] and
-                'userid' in userinfo['user']):
+                    'name' in userinfo['user'] and
+                    'userid' in userinfo['user']):
             return userinfo['user'], groups
         return None, None
