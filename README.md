@@ -35,13 +35,17 @@ Make sure Python 3 and SQLite3 are installed.
 pip3 install virtualenv
 git clone https://github.com/frestr/chalktalk.git
 virtualenv chalktalk
+```
 
 For Linux/Mac:
+```
 source chalktalk/bin/activate
+cd chalktalk
+```
 
 For Windows:
+```
 chalktalk/Scrips/activate.bat
-
 cd chalktalk
 ```
 
