@@ -45,7 +45,7 @@ cd chalktalk
 
 For Windows:
 ```
-chalktalk/Scrips/activate.bat
+chalktalk/Scripts/activate.bat
 cd chalktalk
 ```
 
