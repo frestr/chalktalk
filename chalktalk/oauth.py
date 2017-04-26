@@ -3,6 +3,9 @@ from flask import url_for, request, redirect
 from chalktalk import secret_settings
 import json
 
+"""
+Methods for using Feide to sign in.
+"""
 
 class DataportenSignin():
     def __init__(self):

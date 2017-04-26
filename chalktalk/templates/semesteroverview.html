@@ -35,8 +35,8 @@
 
     <canvas id="myChart"></canvas>
 
+    <!-- This script generates the semester overview chart by getting feedback from the database -->
     <script>
-        //var ratings = [1, 2, 2, 3, 3, 4, 1];
         var ratings = {{ feedback }};
         var datalabels = [
             {% for lab in label %}
@@ -48,7 +48,6 @@
         var myChart = new Chart(ctx, {
             scaleFontColor: "white",
             type: 'line',
-
 
             data: {
                 labels: datalabels,
@@ -107,9 +106,7 @@
                 }
             }
         });
-
     </script>
-    </div>
 
 
 {% endblock %}

@@ -4,6 +4,13 @@ from sqlalchemy.orm import relationship
 from chalktalk.database import Base
 from flask_login import UserMixin
 
+"""
+Database entity management.
+
+Uses SQLAlchemy to create and manage database tables and relationships.
+The code format is specified by SQLAlchemy.
+"""
+
 
 # This is used for many-to-many relations
 relation_tables = {

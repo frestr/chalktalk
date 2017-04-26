@@ -31,6 +31,7 @@ def get_semester(group_info):
     season = 'V' if semester_date.month < 7 else 'H'
     return '{}{}'.format(season, year)
 
+
 def get_lecturedates(start_date, end_date, weekday_list):
     dates = [start_date + timedelta(days=x) for x in range((end_date-start_date).days+1)]
     lecture_dates = []

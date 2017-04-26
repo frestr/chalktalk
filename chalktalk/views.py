@@ -37,14 +37,12 @@ def index():
     """Render home page if the user is authenticated.
     Otherwise redirect to login page."""
     if flask_login.current_user.is_authenticated:
-        # return redirect(url_for('courselist'))
-        # @@@ Temporary for testing
         return redirect(url_for('courselist'))
     else:
         return render_template('index.html', debugging=app.debug)
 
 
-# For testing
+# For testing puposes
 @app.route('/login')
 def login():
     role = request.args.get('role', '')
@@ -170,6 +168,7 @@ def lecture_list_id(*args, **kwargs):
 @register_breadcrumb(app, '.lecture', 'Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 @flask_login.login_required
 def lecturelist(course_id):
+    """Shows the lecture list for students and lecturers by course"""
     curr_user = flask_login.current_user.type
     course = db.session.query(chalktalk.database.Course).get(course_id)
     if course:
@@ -181,6 +180,7 @@ def lecturelist(course_id):
 @register_breadcrumb(app, '.createcourse', 'Create Lecture List', 1, endpoint_arguments_constructor=course_list_id)
 @flask_login.login_required
 def createlecturelist(course_id):
+    """Method for creating lecture lists for lecturers"""
     if flask_login.current_user.type != 'lecturer':
         abort(403)
 
@@ -197,10 +197,8 @@ def createlecturelist(course_id):
         for tags in sorted(tags_list, key=lambda x: x[0]):
             lecture_date = tags[1]
             lecture = db.add_lecture(course, lecture_date, 'MTDT', [flask_login.current_user])
-            # CHECK IF THE TAGS ARE PROPERLY FORMATTED HERE
             for tag in tags[2].split(','):
                 db.add_subject(lecture, tag.strip())
-
         db.save_changes()
 
     else:
@@ -213,15 +211,13 @@ def createlecturelist(course_id):
 @register_breadcrumb(app, '.feedbackform', 'Feedback Form', 2, endpoint_arguments_constructor=lecture_list_id)
 @flask_login.login_required
 def feedbackform(lecture_id):
+    """Feedback form for students when giving feedback to lecturers"""
     if flask_login.current_user.type != 'student':
         abort(403)
 
     lecture = db.session.query(chalktalk.database.Lecture).get(lecture_id)
 
-    ##### NB : This should be the student giving the feedback, not just a 
-    ##### random student like now (just for testing)
     student = flask_login.current_user
-    #####
 
     if lecture is None:
         print('Lecture does not exist: {}'.format(lecture_id))
@@ -260,6 +256,7 @@ def feedbackform(lecture_id):
 @register_breadcrumb(app, '.feedback', 'Lecture Feedback', 3, endpoint_arguments_constructor=lecture_list_id)
 @flask_login.login_required
 def lecturefeedback(lecture_id):
+    """Gets and shows lecture feedback for lecturers"""
     if flask_login.current_user.type != 'lecturer':
         abort(403)
 
@@ -274,6 +271,7 @@ def lecturefeedback(lecture_id):
 @app.route('/semesteroverview/<int:course_id>')
 @flask_login.login_required
 def semesteroverview(course_id):
+    """Cumulative semester feedback overview for lecturers"""
     course = db.session.query(chalktalk.database.Course).get(course_id)
     lectures = []
     labels = []
@@ -294,12 +292,6 @@ def semesteroverview(course_id):
             for k in range(len(subjects[i][j]['comments'])):
                 rating_sum += subjects[i][j]['comments'][k][0]
 
-                #if (len(subjects[i][j]['comments']) != 0):
-                #   labels.append(str(subjects[i][j]['name']))
-                #feedback.append(rating_sum)
-
-    #print(feedback)
-
     for lecture in lectures:
         rating_sum = 0
         rating_count = 0
@@ -307,18 +299,11 @@ def semesteroverview(course_id):
             for rating_feedback in subject.feedbacks:
                 rating_sum += rating_feedback.comprehension_rating
                 rating_count += 1
-        #print("----->" + str(rating_sum) + " " + str(rating_count))
+
         if rating_count == 0:
             feedback.append(rating_sum/1)
         else:
             feedback.append(rating_sum/rating_count)
-    """
-    for i in range(len(ratings)):
-        res = 0
-        for j in range(len(ratings[i])):
-            res += ratings[i][j]
-        feedback.append(res)
-    """
 
     if flask_login.current_user.type != 'lecturer':
         abort(403)
@@ -330,6 +315,7 @@ def semesteroverview(course_id):
 @register_breadcrumb(app, '.addcourse', 'Add Course')
 @flask_login.login_required
 def addcourse():
+    """Method for adding new courses to catalog"""
     if flask_login.current_user.type != 'lecturer':
         abort(403)
 
@@ -354,10 +340,6 @@ def addcourse():
         for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']:
             if day in request.form and request.form[day] == 'on':
                 days.append(day)
-                # from_hours = request.form['{}_hours_from'.format(day)]
-                # from_minutes = request.form['{}_minutes_from'.format(day)]
-                # to_hours = request.form['{}_hours_to'.format(day)]
-                # to_minutes = request.form['{}_minutes_to'.format(day)]
 
         dates = util.get_lecturedates(from_date, to_date, days)
         return render_template('createlecturelist.html', course=course, dates=dates)
@@ -371,6 +353,7 @@ def addcourse():
 @app.route('/editlecturetags/<int:course_id>', methods=['GET', 'POST'])
 @flask_login.login_required
 def editlecturetags(course_id):
+    """Method for editing lecture tags after the lecture list has been created."""
     if flask_login.current_user.type != 'lecturer':
         abort(403)
 
