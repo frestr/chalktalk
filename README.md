@@ -73,7 +73,14 @@ touch database.db
 ### 5. Start the dev server
 
 ```
+For Linux/Mac:
+
 export FLASK_APP=runserver.py
+flask run
+
+For Windows:
+
+set FLASK_APP=runserver.py
 flask run
 ```
 
