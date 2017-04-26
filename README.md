@@ -35,7 +35,13 @@ Make sure Python 3 and SQLite3 are installed.
 pip3 install virtualenv
 git clone https://github.com/frestr/chalktalk.git
 virtualenv chalktalk
+
+For Linux/Mac:
 source chalktalk/bin/activate
+
+For Windows:
+chalktalk/Scrips/activate.bat
+
 cd chalktalk
 ```
 
@@ -83,7 +89,14 @@ touch database.db
 ### 5. Start the dev server
 
 ```
+For Linux/Mac:
+
 export FLASK_APP=runserver.py
+flask run
+
+For Windows:
+
+set FLASK_APP=runserver.py
 flask run
 ```
 
