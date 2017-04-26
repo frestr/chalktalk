@@ -5,6 +5,22 @@
 
 Project for the course "Software Development"
 
+## Project Structure
+This is the main project structure:
+```
+chalktalk
+├── chalktalk        # Python files
+│   ├── static       # Static files (css, js, images)
+│   │   ├── css
+│   │   ├── fonts
+│   │   ├── images
+│   │   └── js
+│   └── templates    # Jinja2 HTML templates
+├── runserver.py     # Script file used to launch application
+├── setup_test_db.py # Script to set up a database with dummy values
+└── tests            # Unit & integration tests
+```
+
 ## Configuration
 
 Do the following steps to set up a development instance of the program.
